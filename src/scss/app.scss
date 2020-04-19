@@ -1,0 +1,37 @@
+body {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #a4e2ff;
+}
+
+main {
+  $size: 500px;
+  width: $size;
+  height: $size;
+  background-color: #9bde64;
+  display: grid;
+  grid-template-columns:repeat(10, 1fr);
+  padding: 10px;
+  box-shadow: 2px 5px 16px 0 #445e3b;
+  border-radius: 25px;
+}
+
+.cube {
+  $size: 50px;
+  width: $size;
+  height: $size;
+}
+
+#last {
+
+}
+
+#first {
+
+}
+
+.middle {
+  background-color: red;
+}
