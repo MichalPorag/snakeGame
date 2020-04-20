@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f1552ac7-1d00-4664-97c4-a97b1ef9fd94" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/media/ocean.jpg" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/scss/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/scss/app.css" afterDir="false" />
@@ -34,6 +35,11 @@
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="watcher.settings" />
   </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\mipor\Desktop\ALL\myProjects\snake\src\media" />
+    </key>
+  </component>
   <component name="RunManager" selected="npm.npm start">
     <configuration name="Debug Application" type="JavascriptDebugType" uri="http://localhost:3000">
       <method v="2" />
@@ -62,7 +68,8 @@
       <workItem from="1587037236525" duration="12704000" />
       <workItem from="1587133602528" duration="1093000" />
       <workItem from="1587296118994" duration="1251000" />
-      <workItem from="1587299015938" duration="21712000" />
+      <workItem from="1587299015938" duration="21812000" />
+      <workItem from="1587380530540" duration="12294000" />
     </task>
     <servers />
   </component>

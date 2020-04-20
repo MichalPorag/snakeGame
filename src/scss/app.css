@@ -3,7 +3,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #a4e2ff;
+  background: url("../media/ocean.jpg");
 }
 
 main {
@@ -20,18 +20,8 @@ main {
 }
 
 .cube {
-  width: 50px;
-  height: 50px;
-}
-
-.frame-sides {
-  width: 10px;
-  background-color: green;
-}
-
-.frame-top-bottom {
-  height: 10px;
-  background-color: green;
+  width: 25px;
+  height: 25px;
 }
 
 .middle {
@@ -39,17 +29,17 @@ main {
 }
 
 #failed-screen {
-  height: 420px;
-  width: 420px;
-  position: absolute;
-  margin-top: -29%;
-  background-color: rgba(0, 0, 0, 0.5);
+  height: 490px;
+  width: 490px;
+  position: relative;
+  background-color: rgba(0, 0, 0, 0.3);
+  margin-top: -100%;
   flex-direction: column;
   justify-content: space-evenly;
   align-content: center;
   padding: 10px;
   border-radius: 25px;
-  box-shadow: inset 0 0 25px 0 black;
+  box-shadow: inset 0 0 55px 0 black;
 }
 
 .hide {
@@ -99,6 +89,11 @@ button {
   100% {
     transform: scale(1);
   }
+}
+#apple {
+  width: 20px;
+  height: 20px;
+  background-image: url("../media/apple.jpg");
 }
 
 /*# sourceMappingURL=app.css.map */
