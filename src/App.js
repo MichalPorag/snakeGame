@@ -3,13 +3,18 @@ import './scss/app.scss';
 
 function App() {
   const cubesNumber = 25;
-  const [snakeDirection, setSnakeDirection] = useState("down");
-  const [snakePositions, setSnakePositions] = useState([1012,912,812,712]);
-  const [failedScreenVisibility, setFailedScreenVisibility] = useState("hide");
-  const [applePositions, setApplePositions] = useState();
+  const [snakeDirection, setSnakeDirection] = useState("");
+  const [snakePositions, setSnakePositions] = useState([]);
+  const [failedScreenVisibility, setFailedScreenVisibility] = useState("");
+  const [applePositions, setApplePositions] = useState(0);
+  // const [treesObjectPositions, setTreesObjectPositions] = useState([]);
 
   useEffect(() => {
+    setSnakeDirection("down");
+    setSnakePositions([1012,912,812,712]);
     setApplePositions(getRndCube());
+    setFailedScreenVisibility("hide");
+    // setTree(5);
   }, []);
 
   useEffect(() => {
@@ -85,32 +90,33 @@ function App() {
   }
 
   const handleKeyPress = (e) => {
-    switch (e.key) {
-      case "ArrowLeft":
-        if (snakeDirection !== "right" || snakeDirection !== "left") {
-          setSnakeDirection("left");
-        }
-        break;
-      case "ArrowRight":
-        if (snakeDirection !== "left" || snakeDirection !== "right") {
-          setSnakeDirection( "right");
-        }
-        break;
-      case "ArrowDown":
-        if (snakeDirection !== "up" || snakeDirection !== "down") {
-          setSnakeDirection("down");
-        }
-        break;
-      case "ArrowUp":
-        if (snakeDirection !== "down" || snakeDirection !== "up") {
-          setSnakeDirection("up")
-        }
-        break;
-      case "Enter":
-        if (failedScreenVisibility === "show") {
-          startNewGame();
-        }
-        break;
+    console.log(failedScreenVisibility)
+    if (failedScreenVisibility === "hide") {
+      switch (e.key) {
+        case "ArrowLeft":
+          if (snakeDirection !== "right" || snakeDirection !== "left") {
+            setSnakeDirection("left");
+          }
+          break;
+        case "ArrowRight":
+          if (snakeDirection !== "left" || snakeDirection !== "right") {
+            setSnakeDirection("right");
+          }
+          break;
+        case "ArrowDown":
+          if (snakeDirection !== "up" || snakeDirection !== "down") {
+            setSnakeDirection("down");
+          }
+          break;
+        case "ArrowUp":
+          if (snakeDirection !== "down" || snakeDirection !== "up") {
+            setSnakeDirection("up")
+          }
+          break;
+      }
+    }
+    if (e.key === "Enter" && failedScreenVisibility === "show") {
+      startNewGame();
     }
   };
 
