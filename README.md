@@ -1,7 +1,7 @@
 # Snake Game
 A little game I created to practice React Hooks.
 
-## To installing and running: 
+## To install and run:
 * npm start
 
 Runs the app in the development mode.<br />
