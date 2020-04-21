@@ -2,7 +2,10 @@
 A little game I created to practice React Hooks.
 
 ## To install and run:
+### Install:
 * npm install -g react react-dom
+* npm install react-scripts --save
+### Run:
 * npm start
 
 Runs the app in the development mode.<br />
