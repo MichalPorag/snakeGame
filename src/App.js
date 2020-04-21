@@ -3,10 +3,14 @@ import './scss/app.scss';
 
 function App() {
   const cubesNumber = 25;
-  const [snakeDirection, setSnakeDirection] = useState("left");
-  const [snakePositions, setSnakePositions] = useState([453,454,455,456]);
+  const [snakeDirection, setSnakeDirection] = useState("down");
+  const [snakePositions, setSnakePositions] = useState([1012,912,812,712]);
   const [failedScreenVisibility, setFailedScreenVisibility] = useState("hide");
-  const [applePositions, setApplePositions] = useState(456);
+  const [applePositions, setApplePositions] = useState();
+
+  useEffect(() => {
+    setApplePositions(getRndCube());
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -25,14 +29,14 @@ function App() {
           handleMovingUp(currentSP);
           break;
       }
-    }, 100);
+    }, 50);
 
     return () => clearInterval(interval);
   });
-
+  
   function handleMovingRight(currentSP) {
     let nextNum = currentSP[currentSP.length - 1] + 1;
-    let num = nextNum % cubesNumber;
+    let num = nextNum % 100;
 
     if (num === (cubesNumber - 1)) {
       setFailedScreenVisibility("show")
@@ -45,7 +49,7 @@ function App() {
 
   function handleMovingLeft(currentSP) {
     let nextNum = currentSP[currentSP.length - 1] - 1;
-    let num = nextNum % cubesNumber;
+    let num = nextNum % 100;
 
     if (num === 0) {
       setFailedScreenVisibility("show")
@@ -57,9 +61,9 @@ function App() {
   }
 
   function handleMovingDown(currentSP) {
-    let nextNum = currentSP[currentSP.length - 1] + cubesNumber;
+    let nextNum = currentSP[currentSP.length - 1] + 100;
 
-    if (Math.floor(nextNum / cubesNumber) === (cubesNumber - 1)) {
+    if (Math.floor(nextNum / 100) === (cubesNumber - 1)) {
       setFailedScreenVisibility("show")
     } else {
       currentSP.shift();
@@ -69,9 +73,9 @@ function App() {
   }
 
   function handleMovingUp(currentSP) {
-    let nextNum = currentSP[currentSP.length - 1] - cubesNumber;
+    let nextNum = currentSP[currentSP.length - 1] - 100;
 
-    if (nextNum < 1) {
+    if (Math.floor(nextNum / 100) === 0) {
       setFailedScreenVisibility("show")
     } else {
       currentSP.shift();
@@ -83,22 +87,22 @@ function App() {
   const handleKeyPress = (e) => {
     switch (e.key) {
       case "ArrowLeft":
-        if (snakeDirection !== "right") {
+        if (snakeDirection !== "right" || snakeDirection !== "left") {
           setSnakeDirection("left");
         }
         break;
       case "ArrowRight":
-        if (snakeDirection !== "left") {
+        if (snakeDirection !== "left" || snakeDirection !== "right") {
           setSnakeDirection( "right");
         }
         break;
       case "ArrowDown":
-        if (snakeDirection !== "up") {
+        if (snakeDirection !== "up" || snakeDirection !== "down") {
           setSnakeDirection("down");
         }
         break;
       case "ArrowUp":
-        if (snakeDirection !== "down") {
+        if (snakeDirection !== "down" || snakeDirection !== "up") {
           setSnakeDirection("up")
         }
         break;
@@ -111,27 +115,50 @@ function App() {
   };
 
   const startNewGame = () => {
-    setSnakePositions([453,454,455,456]);
-    setFailedScreenVisibility("hide")
+    setSnakePositions([1015,915,815,715]);
+    setSnakeDirection("down");
+    setFailedScreenVisibility("hide");
   };
+
+  function setCubeClass(snakePositions, i, j) {
+    let classToReturn = "";
+    if ((i * 100 + j) === applePositions) {
+      classToReturn = `cube middle ${(i * 100) + j} apple`
+    } else if (snakePositions.includes(i * 100 + j)) {
+      classToReturn = `cube middle ${(i * 100) + j}`
+    } else {
+      classToReturn = `cube ${(i * 100) + j}`
+    }
+    return classToReturn;
+  }
 
   document.addEventListener('keydown', handleKeyPress);
 
-  let cubes = () => {
+  let setCubes = () => {
     return [...Array(cubesNumber).keys()].map(i => (i === 0 || i === (cubesNumber - 1)) ?
         <div className={"frame-top-bottom"}
              key={i}/> :
-        <div className={"row"} key={i}>
+        <div className={`row ${i * 100}`} key={i * 100}>
           {[...Array(cubesNumber).keys()].map(j =>
               (j === 0 || j === (cubesNumber - 1)) ?
-              <div className={"frame-sides"}
-                   key={i * cubesNumber + j}/> :
-              <div className={snakePositions.includes(i * cubesNumber + j) ? "cube middle" : "cube"}
-                   key={i * cubesNumber + j}/>
+              <div className={`frame-sides ${(i * 100) + j}`}
+                   key={(i * 100) + j}/> :
+              <div className={setCubeClass(snakePositions, i, j)}
+                   key={(i * 100) + j}/>
           )}
         </div>
     );
   };
+
+  function getRndCube() {
+    let unitsAndTens = getRndInteger(1, cubesNumber - 2);
+    let hundredsAndThousands = getRndInteger(1, cubesNumber - 2) * 100;
+    return hundredsAndThousands + unitsAndTens;
+  }
+
+  function getRndInteger(min, max) {
+    return Math.floor(Math.random() * (max - min)) + min;
+  }
 
   if (snakePositions[snakePositions.length - 1] === applePositions) {
     switch (snakeDirection) {
@@ -142,18 +169,19 @@ function App() {
         setSnakePositions([...snakePositions, snakePositions[snakePositions.length - 1] - 1]);
         break;
       case "up":
-        setSnakePositions([...snakePositions, snakePositions[snakePositions.length - 1] - 10]);
+        setSnakePositions([...snakePositions, snakePositions[snakePositions.length - 1] - 100]);
         break;
       case "down":
-        setSnakePositions([...snakePositions, snakePositions[snakePositions.length - 1] + 10]);
+        setSnakePositions([...snakePositions, snakePositions[snakePositions.length - 1] + 100]);
         break;
     }
+    setApplePositions(getRndCube());
   }
 
   return (
     <React.Fragment>
       <main>
-        {cubes()}
+        {setCubes()}
       </main>
       <div id={"failed-screen"}
            className={failedScreenVisibility}>

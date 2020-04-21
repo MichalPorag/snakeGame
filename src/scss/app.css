@@ -3,7 +3,9 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: url("../media/ocean.jpg");
+  background: url("../media/bigOcean.jpg") no-repeat;
+  background-size: unset;
+  animation: move-bg 400s linear infinite;
 }
 
 main {
@@ -29,8 +31,8 @@ main {
 }
 
 #failed-screen {
-  height: 490px;
-  width: 490px;
+  height: 575px;
+  width: 575px;
   position: relative;
   background-color: rgba(0, 0, 0, 0.3);
   margin-top: -100%;
@@ -90,10 +92,18 @@ button {
     transform: scale(1);
   }
 }
-#apple {
-  width: 20px;
-  height: 20px;
-  background-image: url("../media/apple.jpg");
+.apple {
+  background: url("../media/apple.png") no-repeat center;
+  background-size: cover;
+}
+
+@keyframes move-bg {
+  from {
+    background-position: left bottom;
+  }
+  to {
+    background-position: right top;
+  }
 }
 
 /*# sourceMappingURL=app.css.map */

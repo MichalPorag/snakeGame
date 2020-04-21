@@ -4,7 +4,9 @@ body {
   justify-content: center;
   align-items: center;
   //background-color: #a4e2ff;
-  background: url("../media/ocean.jpg");
+  background: url("../media/bigOcean.jpg") no-repeat;
+  background-size: unset;
+  animation: move-bg 400s linear infinite;
 }
 
 main {
@@ -39,7 +41,7 @@ main {
 }
 
 #failed-screen {
-  $size: 490px;
+  $size: 575px;
   height: $size;
   width: $size;
   position: relative;
@@ -66,13 +68,6 @@ h1, h2, h3 {
   margin: 0;
 }
 
-
-//$titles-size: (75, 60, 40);
-//@for $i from 1 through 3 {
-//  h#{$i} {
-//    font-size: $titles-size($i)px;
-//  }
-//}
 h1 {
   font-size: 75px;
 }
@@ -114,9 +109,16 @@ button {
   }
 }
 
-#apple {
-  $size: 20px;
-  width: $size;
-  height: $size;
-  background-image: url("../media/apple.jpg");
+.apple {
+  background: url("../media/apple.png") no-repeat center;
+  background-size: cover;
+}
+
+@keyframes move-bg {
+  from {
+    background-position: left bottom;
+  }
+  to {
+    background-position: right top;
+  }
 }
