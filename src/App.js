@@ -40,53 +40,37 @@ function App() {
   });
   
   function handleMovingRight(currentSP) {
-    let nextNum = currentSP[currentSP.length - 1] + 1;
-    let num = nextNum % 100;
-
-    if (num === (cubesNumber - 1)) {
-      playSadSound()
-    } else {
-      currentSP.shift();
-      currentSP.push(nextNum);
-    }
+    let nextCube = currentSP[currentSP.length - 1] + 1;
+    (nextCube % 100) === (cubesNumber - 1) ? playSadSound() : updateSnakePosition(currentSP, nextCube);
     setSnakePositions([...currentSP]);
   }
 
   function handleMovingLeft(currentSP) {
-    let nextNum = currentSP[currentSP.length - 1] - 1;
-    let num = nextNum % 100;
-
-    if (num === 0) {
-      playSadSound()
-    } else {
-      currentSP.shift();
-      currentSP.push(nextNum);
-    }
+    let nextCube = currentSP[currentSP.length - 1] - 1;
+    (nextCube % 100) === 0 ? playSadSound() : updateSnakePosition(currentSP, nextCube);
     setSnakePositions([...currentSP]);
   }
 
   function handleMovingDown(currentSP) {
-    let nextNum = currentSP[currentSP.length - 1] + 100;
-
-    if (Math.floor(nextNum / 100) === (cubesNumber - 1)) {
-      playSadSound()
-    } else {
-      currentSP.shift();
-      currentSP.push(nextNum);
-    }
+    let nextCube = currentSP[currentSP.length - 1] + 100;
+    Math.floor(nextCube / 100) === (cubesNumber - 1) ? playSadSound() : updateSnakePosition(currentSP, nextCube);
     setSnakePositions([...currentSP]);
   }
 
   function handleMovingUp(currentSP) {
-    let nextNum = currentSP[currentSP.length - 1] - 100;
-
-    if (Math.floor(nextNum / 100) === 0) {
-      playSadSound()
-    } else {
-      currentSP.shift();
-      currentSP.push(nextNum);
-    }
+    let nextCube = currentSP[currentSP.length - 1] - 100;
+    Math.floor(nextCube / 100) === 0 ? playSadSound() : updateSnakePosition(currentSP, nextCube);
     setSnakePositions([...currentSP]);
+  }
+
+  function updateSnakePosition(snakePositions, nextCube) {
+    console.log(nextCube, snakePositions);
+    // if (snakePositions.include(nextCube)) {
+      // startNewGame();
+    // } else {
+      snakePositions.shift();
+      snakePositions.push(nextCube);
+    // }
   }
 
   const handleKeyPress = (e) => {
