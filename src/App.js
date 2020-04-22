@@ -44,7 +44,7 @@ function App() {
     let num = nextNum % 100;
 
     if (num === (cubesNumber - 1)) {
-      setFailedScreenVisibility("show")
+      playSadSound()
     } else {
       currentSP.shift();
       currentSP.push(nextNum);
@@ -57,7 +57,7 @@ function App() {
     let num = nextNum % 100;
 
     if (num === 0) {
-      setFailedScreenVisibility("show")
+      playSadSound()
     } else {
       currentSP.shift();
       currentSP.push(nextNum);
@@ -69,7 +69,7 @@ function App() {
     let nextNum = currentSP[currentSP.length - 1] + 100;
 
     if (Math.floor(nextNum / 100) === (cubesNumber - 1)) {
-      setFailedScreenVisibility("show")
+      playSadSound()
     } else {
       currentSP.shift();
       currentSP.push(nextNum);
@@ -81,7 +81,7 @@ function App() {
     let nextNum = currentSP[currentSP.length - 1] - 100;
 
     if (Math.floor(nextNum / 100) === 0) {
-      setFailedScreenVisibility("show")
+      playSadSound()
     } else {
       currentSP.shift();
       currentSP.push(nextNum);
@@ -166,6 +166,12 @@ function App() {
     return Math.floor(Math.random() * (max - min)) + min;
   }
 
+  function playSadSound() {
+    // const sad = new Audio("https://www.fesliyanstudios.com/play-mp3/5645");
+    // sad.play().catch(e => console.error(e));
+    setFailedScreenVisibility("show")
+  }
+
   if (snakePositions[snakePositions.length - 1] === applePositions) {
     switch (snakeDirection) {
       case "right":
@@ -182,6 +188,10 @@ function App() {
         break;
     }
     setApplePositions(getRndCube());
+    window.setTimeout(function() {
+      const burp = new Audio("https://www.fesliyanstudios.com/play-mp3/5759");
+      burp.play().catch(e => console.error(e));
+      }, 100);
   }
 
   return (
