@@ -8,6 +8,7 @@ function App() {
   const [failedScreenVisibility, setFailedScreenVisibility] = useState("");
   const [applePositions, setApplePositions] = useState(0);
   // const [treesObjectPositions, setTreesObjectPositions] = useState([]);
+  const [isSoundActive, setSoundActive] = useState("");
 
   useEffect(() => {
     setSnakeDirection("down");
@@ -15,6 +16,7 @@ function App() {
     setApplePositions(getRndCube());
     setFailedScreenVisibility("hide");
     // setTree(5);
+    setSoundActive("unMute")
   }, []);
 
   useEffect(() => {
@@ -167,14 +169,28 @@ function App() {
         break;
     }
     setApplePositions(getRndCube());
-    window.setTimeout(function() {
-      const burp = new Audio("https://www.fesliyanstudios.com/play-mp3/5759");
-      burp.play().catch(e => console.error(e));
+    playBurpSound()
+  }
+
+  function playBurpSound() {
+    if (isSoundActive === "unMute") {
+      window.setTimeout(function () {
+        const burp = new Audio("https://www.fesliyanstudios.com/play-mp3/5759");
+        burp.play().catch(e => console.error(e));
       }, 100);
+    }
+    console.log("isSoundActive: ",isSoundActive);
+  }
+
+  const updateMuteBtn = () => {
+    return isSoundActive === "mute" ? setSoundActive("unMute") : setSoundActive("mute");
   }
 
   return (
     <React.Fragment>
+      <button id={"BTN-disabled-audio"}
+              className={isSoundActive}
+              onClick={updateMuteBtn}/>
       <main>
         {setCubes()}
       </main>
@@ -185,7 +201,8 @@ function App() {
           <h1>You Failed!</h1>
         </section>
         <h3>Wont to start over?</h3>
-        <button onClick={startNewGame}>
+        <button id={`BTN-start-new-game`}
+                onClick={startNewGame}>
           Start Again
         </button>
       </div>

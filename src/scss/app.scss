@@ -80,7 +80,24 @@ h3 {
   font-size: 40px;
 }
 
-button {
+@keyframes scale {
+  0% {
+    transform: scale(1);
+  }
+  80% {
+    transform: scale(1.02);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.apple {
+  background: url("../media/apple.png") no-repeat center;
+  background-size: cover;
+}
+
+#BTN-start-new-game {
   width: 70%;
   height: 80px;
   margin: 0 auto;
@@ -97,21 +114,30 @@ button {
   }
 }
 
-@keyframes scale {
-  0% {
-    transform: scale(1);
-  }
-  80% {
-    transform: scale(1.02);
-  }
-  100% {
-    transform: scale(1);
+#BTN-disabled-audio {
+  $size: 25px;
+  width: $size + 10px;
+  height: $size;
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background-color: transparent;
+  background-size: cover;
+
+  &:hover {
+
   }
 }
 
-.apple {
-  background: url("../media/apple.png") no-repeat center;
-  background-size: cover;
+.mute {
+  background: transparent url("../media/mute.png") no-repeat;
+}
+
+.unMute {
+  background: transparent url("../media/unMute.png") no-repeat;
 }
 
 @keyframes move-bg {

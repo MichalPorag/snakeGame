@@ -69,18 +69,6 @@ h3 {
   font-size: 40px;
 }
 
-button {
-  width: 70%;
-  height: 80px;
-  margin: 0 auto;
-  background-color: yellow;
-  border: 0;
-  font-size: 30px;
-  font-weight: bold;
-  border-radius: 15px;
-  box-shadow: 0 10px 13px -7px #000000, 5px 5px 15px 5px rgba(0, 0, 0, 0);
-  animation: scale 1s linear infinite;
-}
 @keyframes scale {
   0% {
     transform: scale(1);
@@ -95,6 +83,38 @@ button {
 .apple {
   background: url("../media/apple.png") no-repeat center;
   background-size: cover;
+}
+
+#BTN-start-new-game {
+  width: 70%;
+  height: 80px;
+  margin: 0 auto;
+  background-color: yellow;
+  border: 0;
+  font-size: 30px;
+  font-weight: bold;
+  border-radius: 15px;
+  box-shadow: 0 10px 13px -7px #000000, 5px 5px 15px 5px rgba(0, 0, 0, 0);
+  animation: scale 1s linear infinite;
+}
+#BTN-disabled-audio {
+  width: 35px;
+  height: 25px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background-color: transparent;
+  background-size: cover;
+}
+.mute {
+  background: transparent url("../media/mute.png") no-repeat;
+}
+
+.unMute {
+  background: transparent url("../media/unMute.png") no-repeat;
 }
 
 @keyframes move-bg {
