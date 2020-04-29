@@ -3,9 +3,9 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: url("../media/bigOcean.jpg") no-repeat;
+  background: url("../media/ocean.jpg") repeat;
   background-size: unset;
-  animation: move-bg 400s linear infinite;
+  animation: move-bg 100s linear infinite;
 }
 
 main {
@@ -15,6 +15,27 @@ main {
   padding: 10px;
   box-shadow: 2px 5px 16px 0 #445e3b;
   border-radius: 25px;
+}
+
+h1, h2, h3 {
+  text-align: center;
+  margin: 0;
+}
+
+h1 {
+  font-size: 75px;
+}
+
+h2 {
+  font-size: 60px;
+}
+
+h3 {
+  font-size: 40px;
+}
+
+button {
+  cursor: pointer;
 }
 
 .row {
@@ -30,7 +51,7 @@ main {
   background-color: red;
 }
 
-#failed-screen {
+#game-over-screen {
   height: 575px;
   width: 575px;
   position: relative;
@@ -50,23 +71,6 @@ main {
 
 .show {
   display: flex;
-}
-
-h1, h2, h3 {
-  text-align: center;
-  margin: 0;
-}
-
-h1 {
-  font-size: 75px;
-}
-
-h2 {
-  font-size: 60px;
-}
-
-h3 {
-  font-size: 40px;
 }
 
 @keyframes scale {
@@ -119,10 +123,10 @@ h3 {
 
 @keyframes move-bg {
   from {
-    background-position: left bottom;
+    background-position: right top;
   }
   to {
-    background-position: right top;
+    background-position: left bottom;
   }
 }
 

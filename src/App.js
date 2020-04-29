@@ -1,159 +1,120 @@
 import React, {useState, useEffect} from 'react';
 import './scss/app.scss';
 
-function App() {
-  const cubesNumber = 25;
-  const [snakeDirection, setSnakeDirection] = useState("");
-  const [snakePositions, setSnakePositions] = useState([]);
-  const [failedScreenVisibility, setFailedScreenVisibility] = useState("");
-  const [applePositions, setApplePositions] = useState(0);
-  // const [treesObjectPositions, setTreesObjectPositions] = useState([]);
-  const [isSoundActive, setSoundActive] = useState("");
+import GameOverScreen from "./components/GameOverScreen";
 
-  useEffect(() => {
-    setSnakeDirection("down");
-    setSnakePositions([1012,912,812,712]);
-    setApplePositions(getRndCube());
-    setFailedScreenVisibility("hide");
-    // setTree(5);
-    setSoundActive("unMute")
-  }, []);
+function App() {
+  const NUMBER_OF_LINES = 25;
+  const [snakeDirection, setSnakeDirection] = useState("down");
+  const [snakePositions, setSnakePositions] = useState([712,812,912,1012]);
+  const [isGameOver, setIsGameOver] = useState(false);
+  const [applePositions, setApplePositions] = useState(getRandomCube());
+  // const [treesObjectPositions, setTreesObjectPositions] = useState([]);
+  const [isSoundActive, setSoundActive] = useState(false);
+  const [isEnterClicked, updatedEnterClicked] = useState(true);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      let currentSP = snakePositions;
-      switch (snakeDirection) {
-        case "left":
-          handleMovingLeft(currentSP);
-          break;
-        case "right":
-          handleMovingRight(currentSP);
-          break;
-        case "down":
-          handleMovingDown(currentSP);
-          break;
-        case "up":
-          handleMovingUp(currentSP);
-          break;
+      if (isSnakeHeadPositionValid(getSnakeHeadNewPosition())) {
+        updateSnakeBodyPosition();
+        if (isPositionEqualToApplePosition(getSnakeHeadNewPosition())) {
+          increaseSnakeBody();
+          updateApplePosition();
+          if (isSoundActive) {
+            playBurpSound();
+          }
+        }
+      } else {
+        gameOver();
+        clearInterval(interval);
       }
-    }, 50);
+    }, 80);
 
     return () => clearInterval(interval);
   });
-  
-  function handleMovingRight(currentSP) {
-    let nextCube = currentSP[currentSP.length - 1] + 1;
-    (nextCube % 100) === (cubesNumber - 1) ? playSadSound() : updateSnakePosition(currentSP, nextCube);
-    setSnakePositions([...currentSP]);
-  }
 
-  function handleMovingLeft(currentSP) {
-    let nextCube = currentSP[currentSP.length - 1] - 1;
-    ((nextCube % 100) === 0) ? playSadSound() : updateSnakePosition(currentSP, nextCube);
-    setSnakePositions([...currentSP]);
-  }
+  useEffect(() => {
+    document.addEventListener('keyup', handleKeyPress);
 
-  function handleMovingDown(currentSP) {
-    let nextCube = currentSP[currentSP.length - 1] + 100;
-    (Math.floor(nextCube / 100) === (cubesNumber - 1)) ? playSadSound() : updateSnakePosition(currentSP, nextCube);
-    setSnakePositions([...currentSP]);
-  }
+    return () => {
+      window.removeEventListener('keyup', handleKeyPress);
+    };
+  }, []);
 
-  function handleMovingUp(currentSP) {
-    let nextCube = currentSP[currentSP.length - 1] - 100;
-    (Math.floor(nextCube / 100) === 0) ? playSadSound() : updateSnakePosition(currentSP, nextCube);
-    setSnakePositions([...currentSP]);
-  }
-
-  function updateSnakePosition(currentSP, nextCube) {
-    currentSP.shift();
-    currentSP.push(nextCube);
-  }
-
-  const handleKeyPress = (e) => {
-    console.log(failedScreenVisibility)
-    if (failedScreenVisibility === "hide") {
-      switch (e.key) {
-        case "ArrowLeft":
-          if (snakeDirection !== "right" || snakeDirection !== "left") {
-            setSnakeDirection("left");
-          }
-          break;
-        case "ArrowRight":
-          if (snakeDirection !== "left" || snakeDirection !== "right") {
-            setSnakeDirection("right");
-          }
-          break;
-        case "ArrowDown":
-          if (snakeDirection !== "up" || snakeDirection !== "down") {
-            setSnakeDirection("down");
-          }
-          break;
-        case "ArrowUp":
-          if (snakeDirection !== "down" || snakeDirection !== "up") {
-            setSnakeDirection("up")
-          }
-          break;
-      }
+  const getSnakeHeadNewPosition = () => {
+    let nextCube = 0;
+    switch (snakeDirection) {
+      case "left":
+        nextCube = snakePositions[snakePositions.length - 1] - 1;
+        break;
+      case "right":
+        nextCube = snakePositions[snakePositions.length - 1] + 1;
+        break;
+      case "down":
+        nextCube = snakePositions[snakePositions.length - 1] + 100;
+        break;
+      case "up":
+        nextCube = snakePositions[snakePositions.length - 1] - 100;
+        break;
     }
-    if (e.key === "Enter" && failedScreenVisibility === "show") {
-      startNewGame();
-    }
+    return nextCube;
   };
 
-  const startNewGame = () => {
-    setSnakePositions([1015,915,815,715]);
-    setSnakeDirection("down");
-    setFailedScreenVisibility("hide");
+  /*Run test on specific cube*/
+  const isPositionEqualToApplePosition = (cubeToCheck) => {
+    return cubeToCheck === applePositions;
   };
 
-  function setCubeClass(snakePositions, i, j) {
-    let classToReturn = "";
-    if ((i * 100 + j) === applePositions) {
-      classToReturn = `cube middle ${(i * 100) + j} apple`
-    } else if (snakePositions.includes(i * 100 + j)) {
-      classToReturn = `cube middle ${(i * 100) + j}`
-    } else {
-      classToReturn = `cube ${(i * 100) + j}`
+  const isPositionEqualToFrameOfBoard = (cubeToCheck) => {
+    let isSnakeHeadTouchFrame = false;
+    switch (snakeDirection) {
+      case "left":
+        isSnakeHeadTouchFrame = (cubeToCheck % 100) === 0;
+        break;
+      case "right":
+        isSnakeHeadTouchFrame = (cubeToCheck % 100) === (NUMBER_OF_LINES - 1);
+        break;
+      case "down":
+        isSnakeHeadTouchFrame = Math.floor(cubeToCheck / 100) === (NUMBER_OF_LINES - 1);
+        break;
+      case "up":
+        isSnakeHeadTouchFrame = Math.floor(cubeToCheck / 100) === 0;
+        break;
     }
-    return classToReturn;
-  }
-
-  document.addEventListener('keydown', handleKeyPress);
-
-  let setCubes = () => {
-    return [...Array(cubesNumber).keys()].map(i => (i === 0 || i === (cubesNumber - 1)) ?
-        <div className={"frame-top-bottom"}
-             key={i}/> :
-        <div className={`row ${i * 100}`} key={i * 100}>
-          {[...Array(cubesNumber).keys()].map(j =>
-              (j === 0 || j === (cubesNumber - 1)) ?
-              <div className={`frame-sides ${(i * 100) + j}`}
-                   key={(i * 100) + j}/> :
-              <div className={setCubeClass(snakePositions, i, j)}
-                   key={(i * 100) + j}/>
-          )}
-        </div>
-    );
+    return isSnakeHeadTouchFrame;
   };
 
-  function getRndCube() {
-    let unitsAndTens = getRndInteger(1, cubesNumber - 2);
-    let hundredsAndThousands = getRndInteger(1, cubesNumber - 2) * 100;
-    return hundredsAndThousands + unitsAndTens;
+  const isPositionEqualToSnakePosition = (cubeToCheck) => {
+    return snakePositions.includes(cubeToCheck);
+  };
+
+  /**
+   * Apple position is valid if it is not in the same cube as
+   * the snake, apple or tree.
+   */
+  const isApplePositionValid = (applePositionToCheck) => {
+    return !(isPositionEqualToSnakePosition(applePositionToCheck) &&
+           isPositionEqualToApplePosition(applePositionToCheck))
+  };
+
+  /**
+   * Snake position is valid if it is not in the same cube as
+   * the snake, apple or tree.
+   */
+  const isSnakeHeadPositionValid = (snakeHeadPositionToCheck) => {
+    return !(isPositionEqualToFrameOfBoard(snakeHeadPositionToCheck) ||
+           isPositionEqualToSnakePosition(snakeHeadPositionToCheck))
+  };
+
+  /*Update snake functions*/
+  function updateSnakeBodyPosition() {
+      let currentSP = [...snakePositions];
+      currentSP.shift();
+      currentSP.push(getSnakeHeadNewPosition());
+      setSnakePositions([...currentSP]);
   }
 
-  function getRndInteger(min, max) {
-    return Math.floor(Math.random() * (max - min)) + min;
-  }
-
-  function playSadSound() {
-    // const sad = new Audio("https://www.fesliyanstudios.com/play-mp3/5645");
-    // sad.play().catch(e => console.error(e));
-    setFailedScreenVisibility("show")
-  }
-
-  if (snakePositions[snakePositions.length - 1] === applePositions) {
+  const increaseSnakeBody = () => {
     switch (snakeDirection) {
       case "right":
         setSnakePositions([...snakePositions, snakePositions[snakePositions.length - 1] + 1]);
@@ -168,44 +129,143 @@ function App() {
         setSnakePositions([...snakePositions, snakePositions[snakePositions.length - 1] + 100]);
         break;
     }
-    setApplePositions(getRndCube());
-    playBurpSound()
-  }
+  };
 
-  function playBurpSound() {
-    if (isSoundActive === "unMute") {
-      window.setTimeout(function () {
-        const burp = new Audio("https://www.fesliyanstudios.com/play-mp3/5759");
-        burp.play().catch(e => console.error(e));
-      }, 100);
+  /**Get in to recursion until the cube the is valid*/
+  const updateApplePosition = () => {
+    let newRandomCube = getRandomCube();
+    if (isApplePositionValid(newRandomCube)) {
+      setApplePositions(newRandomCube);
+    } else {
+      updateApplePosition();
     }
-    console.log("isSoundActive: ",isSoundActive);
+  };
+
+  //TODO: Fix multiply clicked!
+  const handleKeyPress = (e) => {
+    console.log("I am at handleKeyPress");
+    if (!isGameOver) {
+      switch (e.key) {
+        case "ArrowLeft":
+          if (snakeDirection !== "right" && snakeDirection !== "left") {
+            console.log("ArrowLeft");
+            setSnakeDirection("left");
+          }
+          break;
+        case "ArrowRight":
+          if (snakeDirection !== "left" && snakeDirection !== "right") {
+            console.log("ArrowRight");
+            setSnakeDirection("right");
+          }
+          break;
+        case "ArrowDown":
+          if (snakeDirection !== "up" && snakeDirection !== "down") {
+            console.log("ArrowDown");
+            setSnakeDirection("down");
+          }
+          break;
+        case "ArrowUp":
+          if (snakeDirection !== "down" && snakeDirection !== "up") {
+            console.log("ArrowUp");
+            setSnakeDirection("up");
+          }
+          break;
+      }
+    }
+    if (e.key === "Enter" && isGameOver && !isEnterClicked) {
+      console.log("Enter");
+      startNewGame();
+      updatedEnterClicked(true);
+    }
+  };
+
+  function setCubeClass(snakePositions, i, j) {
+    let classToReturn = `cube ${(i * 100) + j}`;
+    if ((i * 100 + j) === applePositions) {
+      classToReturn += ` apple`
+    }
+    if (snakePositions.includes(i * 100 + j)) {
+      classToReturn += ` middle`
+    }
+    if (i === 0 || i === NUMBER_OF_LINES || j === 0 || j === NUMBER_OF_LINES) {
+      classToReturn += ` frame`
+    }
+    return classToReturn;
   }
 
-  const updateMuteBtn = () => {
-    return isSoundActive === "mute" ? setSoundActive("unMute") : setSoundActive("mute");
+  let setCubes = () => {
+    return [...Array(NUMBER_OF_LINES).keys()].map(i => (i === 0 || i === (NUMBER_OF_LINES - 1)) ?
+        <div className={"frame-top-bottom"}
+             key={i}/> :
+        <div className={`row ${i * 100}`} key={i * 100}>
+          {[...Array(NUMBER_OF_LINES).keys()].map(j =>
+              (j === 0 || j === (NUMBER_OF_LINES - 1)) ?
+              <div className={`frame-sides ${(i * 100) + j}`}
+                   key={(i * 100) + j}/> :
+              <div className={setCubeClass(snakePositions, i, j)}
+                   key={(i * 100) + j}/>
+          )}
+        </div>
+    );
+  };
+
+  function getRandomCube() {
+    let unitsAndTens = getRndInteger(1, NUMBER_OF_LINES - 2);
+    let hundredsAndThousands = getRndInteger(1, NUMBER_OF_LINES - 2) * 100;
+    return hundredsAndThousands + unitsAndTens;
   }
 
+  function getRndInteger(min, max) {
+    return Math.floor(Math.random() * (max - min)) + min;
+  }
+
+  const gameOver = () => {
+    playSadSound();
+    setIsGameOver(true);
+    updatedEnterClicked(false);
+  };
+
+  const startNewGame = () => {
+    setSnakePositions([1015,915,815,715]);
+    setSnakeDirection("down");
+    setIsGameOver(false);
+  };
+
+  /*Sounds Functions*/
+  const playSadSound = () => {
+    // const sad = new Audio("https://www.fesliyanstudios.com/play-mp3/5645");
+    // sad.play().catch(e => console.error(e));
+  }
+
+  const playBurpSound = () => {
+    window.setTimeout(function () {
+      const burp = new Audio("https://www.fesliyanstudios.com/play-mp3/5759");
+      burp.play().catch(e => console.error(e));
+    }, 100);
+  };
+
+  /*Handle buttons Clicks Functions*/
+  const handleSoundButtonClicked = () => {
+    return isSoundActive ? setSoundActive(false) : setSoundActive(true);
+  };
+
+  const handleStartNewGameButtonClicked = () => {
+    startNewGame()
+  };
+
+  /*JSX*/
   return (
     <React.Fragment>
       <button id={"BTN-disabled-audio"}
-              className={isSoundActive}
-              onClick={updateMuteBtn}/>
+              className={isSoundActive ? "unMute" : "mute"}
+              onClick={handleSoundButtonClicked}/>
       <main>
         {setCubes()}
       </main>
-      <div id={"failed-screen"}
-           className={failedScreenVisibility}>
-        <section>
-          <h2>Hoo...</h2>
-          <h1>You Failed!</h1>
-        </section>
-        <h3>Wont to start over?</h3>
-        <button id={`BTN-start-new-game`}
-                onClick={startNewGame}>
-          Start Again
-        </button>
-      </div>
+      {isGameOver ?
+          <GameOverScreen handleClicked={handleStartNewGameButtonClicked}/> :
+          null
+      }
     </React.Fragment>
   );
 }
