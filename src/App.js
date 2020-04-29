@@ -39,7 +39,7 @@ function App() {
     return () => {
       window.removeEventListener('keyup', handleKeyPress);
     };
-  }, []);
+  });
 
   const getSnakeHeadNewPosition = () => {
     let nextCube = 0;
@@ -55,6 +55,8 @@ function App() {
         break;
       case "up":
         nextCube = snakePositions[snakePositions.length - 1] - 100;
+        break;
+      default:
         break;
     }
     return nextCube;
@@ -79,6 +81,8 @@ function App() {
         break;
       case "up":
         isSnakeHeadTouchFrame = Math.floor(cubeToCheck / 100) === 0;
+        break;
+      default:
         break;
     }
     return isSnakeHeadTouchFrame;
@@ -128,6 +132,8 @@ function App() {
       case "down":
         setSnakePositions([...snakePositions, snakePositions[snakePositions.length - 1] + 100]);
         break;
+      default:
+        break;
     }
   };
 
@@ -169,6 +175,8 @@ function App() {
             console.log("ArrowUp");
             setSnakeDirection("up");
           }
+          break;
+        default:
           break;
       }
     }
@@ -235,7 +243,7 @@ function App() {
   const playSadSound = () => {
     // const sad = new Audio("https://www.fesliyanstudios.com/play-mp3/5645");
     // sad.play().catch(e => console.error(e));
-  }
+  };
 
   const playBurpSound = () => {
     window.setTimeout(function () {
