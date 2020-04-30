@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import './scss/app.scss';
 
 import GameOverScreen from "./components/GameOverScreen";
+import ChoseModScreen from "./components/ChoseModScreen";
 
 function App() {
   const NUMBER_OF_LINES = 25;
@@ -274,6 +275,7 @@ function App() {
           <GameOverScreen handleClicked={handleStartNewGameButtonClicked}/> :
           null
       }
+      {/*<ChoseModScreen />*/}
     </React.Fragment>
   );
 }
