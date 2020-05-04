@@ -2,44 +2,46 @@ import React, {useState, useEffect} from 'react';
 import './scss/app.scss';
 
 import GameOverScreen from "./components/GameOverScreen";
+import useInterval from './hooks/useInterval';
 
 function App() {
   const NUMBER_OF_LINES = 25;
-  const [snakeDirection, setSnakeDirection] = useState("down");
+  const [snakeDirection, setSnakeDirection] = useState();
   const [snakePositions, setSnakePositions] = useState([712,812,912,1012]);
-  const [isGameOver, setIsGameOver] = useState(false);
-  const [applePositions, setApplePositions] = useState(getRandomCube());
-  // const [treesObjectPositions, setTreesObjectPositions] = useState([]);
-  const [isSoundActive, setSoundActive] = useState(false);
-  const [isEnterClicked, updatedEnterClicked] = useState(true);
+  const [isGameOver, setIsGameOver] = useState();
+  const [applePositions, setApplePositions] = useState();
+  const [isSoundActive, setSoundActive] = useState();
+  console.log(`snakePosition: ${snakePositions}`);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      if (isSnakeHeadPositionValid(getSnakeHeadNewPosition())) {
-        updateSnakeBodyPosition();
-        if (isPositionEqualToApplePosition(getSnakeHeadNewPosition())) {
-          increaseSnakeBody();
-          updateApplePosition();
-          if (isSoundActive) {
-            playBurpSound();
-          }
-        }
-      } else {
-        gameOver();
-        clearInterval(interval);
-      }
-    }, 80);
+    setSnakeDirection("down");
+    // setSnakePositions([712,812,912,1012]);
+    setIsGameOver(false);
+    setApplePositions(getRandomCube());
+    setSoundActive(false);
 
-    return () => clearInterval(interval);
-  });
-
-  useEffect(() => {
     document.addEventListener('keyup', handleKeyPress);
 
     return () => {
       window.removeEventListener('keyup', handleKeyPress);
     };
-  });
+  }, []);
+
+  useInterval(() => {
+    if (isSnakeHeadPositionValid(getSnakeHeadNewPosition())) {
+      updateSnakeBodyPosition();
+      if (isPositionEqualToApplePosition(getSnakeHeadNewPosition())) {
+        increaseSnakeBody();
+        updateApplePosition();
+        if (isSoundActive) {
+          playBurpSound();
+        }
+      }
+    } else {
+      gameOver();
+      // clearInterval(interval);
+    }
+  }, isGameOver? null : 80);
 
   const getSnakeHeadNewPosition = () => {
     let nextCube = 0;
@@ -148,31 +150,28 @@ function App() {
   };
 
   //TODO: Fix multiply clicked!
-  const handleKeyPress = (e) => {
-    console.log("I am at handleKeyPress");
+  const handleKeyPress = e => {
+    const {key} = e;
     if (!isGameOver) {
-      switch (e.key) {
+      console.log("key: ",key);
+      switch (key) {
         case "ArrowLeft":
           if (snakeDirection !== "right" && snakeDirection !== "left") {
-            console.log("ArrowLeft");
             setSnakeDirection("left");
           }
           break;
         case "ArrowRight":
           if (snakeDirection !== "left" && snakeDirection !== "right") {
-            console.log("ArrowRight");
             setSnakeDirection("right");
           }
           break;
         case "ArrowDown":
           if (snakeDirection !== "up" && snakeDirection !== "down") {
-            console.log("ArrowDown");
             setSnakeDirection("down");
           }
           break;
         case "ArrowUp":
           if (snakeDirection !== "down" && snakeDirection !== "up") {
-            console.log("ArrowUp");
             setSnakeDirection("up");
           }
           break;
@@ -180,10 +179,9 @@ function App() {
           break;
       }
     }
-    if (e.key === "Enter" && isGameOver && !isEnterClicked) {
+    if (key === "Enter" && isGameOver) {
       console.log("Enter");
       startNewGame();
-      updatedEnterClicked(true);
     }
   };
 
@@ -192,7 +190,7 @@ function App() {
     if ((i * 100 + j) === applePositions) {
       classToReturn += ` apple`
     }
-    if (snakePositions.includes(i * 100 + j)) {
+    if (snakePositions && snakePositions.includes(i * 100 + j)) {
       classToReturn += ` snake`
     }
     if (i === 0 || i === NUMBER_OF_LINES || j === 0 || j === NUMBER_OF_LINES) {
@@ -230,7 +228,6 @@ function App() {
   const gameOver = () => {
     playSadSound();
     setIsGameOver(true);
-    updatedEnterClicked(false);
   };
 
   const startNewGame = () => {
