@@ -3,7 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="f1552ac7-1d00-4664-97c4-a97b1ef9fd94" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.css" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/GameOverScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/GameOverScreen.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/scss/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/scss/app.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/scss/app.css.map" beforeDir="false" afterPath="$PROJECT_DIR$/src/scss/app.css.map" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/scss/app.scss" beforeDir="false" afterPath="$PROJECT_DIR$/src/scss/app.scss" afterDir="false" />
@@ -43,6 +45,8 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\mipor\Desktop\ALL\myProjects\snake\src\scss\Local" />
+      <recent name="C:\Users\mipor\Desktop\ALL\myProjects\snake\src\scss\Local\Partials" />
       <recent name="C:\Users\mipor\Desktop\ALL\myProjects\snake\src\media" />
     </key>
   </component>
@@ -173,11 +177,11 @@
     </state>
     <state x="1566" y="138" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/-1920.0.1536.832/0.0.2560.1040@0.0.2560.1040" timestamp="1587361133583" />
     <state x="1566" y="138" key="com.intellij.openapi.editor.actions.MultiplePasteAction$ClipboardContentChooser/-1920.0.1920.1040/0.0.2560.1040@0.0.2560.1040" timestamp="1588155152833" />
-    <state x="1599" y="251" width="607" height="536" key="find.popup" timestamp="1588091505067">
+    <state x="1599" y="251" width="607" height="536" key="find.popup" timestamp="1588576110949">
       <screen x="0" y="0" width="2560" height="1040" />
     </state>
     <state x="1616" y="255" width="607" height="536" key="find.popup/-1920.0.1536.832/0.0.2560.1040@0.0.2560.1040" timestamp="1587490498523" />
-    <state x="1599" y="251" width="607" height="536" key="find.popup/-1920.0.1920.1040/0.0.2560.1040@0.0.2560.1040" timestamp="1588091505067" />
+    <state x="1599" y="251" width="607" height="536" key="find.popup/-1920.0.1920.1040/0.0.2560.1040@0.0.2560.1040" timestamp="1588576110949" />
     <state x="1576" y="180" width="672" height="676" key="search.everywhere.popup" timestamp="1587468660630">
       <screen x="0" y="0" width="2560" height="1040" />
     </state>

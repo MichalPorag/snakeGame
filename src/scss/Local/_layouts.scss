@@ -1,0 +1,20 @@
+/*Flex*/
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin flex-middle-start {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+@mixin flex-middle-end {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+/*Grid*/

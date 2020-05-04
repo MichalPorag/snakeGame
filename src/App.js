@@ -193,7 +193,7 @@ function App() {
       classToReturn += ` apple`
     }
     if (snakePositions.includes(i * 100 + j)) {
-      classToReturn += ` middle`
+      classToReturn += ` snake`
     }
     if (i === 0 || i === NUMBER_OF_LINES || j === 0 || j === NUMBER_OF_LINES) {
       classToReturn += ` frame`
@@ -264,8 +264,8 @@ function App() {
   /*JSX*/
   return (
     <React.Fragment>
-      <button id={"BTN-disabled-audio"}
-              className={isSoundActive ? "unMute" : "mute"}
+      <button
+              className={`BTN-audio ${isSoundActive ? "unMute" : "mute"}`}
               onClick={handleSoundButtonClicked}/>
       <main>
         {setCubes()}

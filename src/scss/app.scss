@@ -1,41 +1,30 @@
+@import "Config/_colors",
+        "Config/_animations";
+
+@import "Local/Partials/_buttons",
+        "Local/Partials/_titls.scss",
+        "Local/_utilities",
+        "Local/_reset",
+        "Local/_mixins",
+        "Local/_icons",
+        "Local/layouts",
+        "Local/_fonts";
+
 body {
   height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  @include flex-center;
   background: url("../media/ocean.jpg") repeat;
   background-size: unset;
   animation: move-bg 100s linear infinite;
 }
 
 main {
-  background-color: #9bde64;
+  background-color: map_get($colors, board);
   display: flex;
   flex-direction: column;
   padding: 10px;
-  box-shadow: 2px 5px 16px 0 #445e3b;
+  box-shadow: 2px 5px 16px 0 map_get($colors, box-shadow-dark-green);
   border-radius: 25px;
-}
-
-h1, h2, h3 {
-  text-align: center;
-  margin: 0;
-}
-
-h1 {
-  font-size: 75px;
-}
-
-h2 {
-  font-size: 60px;
-}
-
-h3 {
-  font-size: 40px;
-}
-
-button {
-  cursor: pointer;
 }
 
 .row {
@@ -48,51 +37,8 @@ button {
   height: $size;
 }
 
-#last {
-
-}
-
-#first {
-
-}
-
-.middle {
-  background-color: red;
-}
-
-#game-over-screen {
-  $size: 575px;
-  height: $size;
-  width: $size;
-  position: relative;
-  background-color: rgba(0, 0, 0, 0.3);
-  margin-top: -100%;
-  flex-direction: column;
-  justify-content: space-evenly;
-  align-content: center;
-  padding: 10px;
-  border-radius: 25px;
-  box-shadow: inset 0 0 55px 0 black;
-}
-
-.hide {
-  display: none;
-}
-
-.show {
-  display: flex;
-}
-
-@keyframes scale {
-  0% {
-    transform: scale(1);
-  }
-  80% {
-    transform: scale(1.02);
-  }
-  100% {
-    transform: scale(1);
-  }
+.snake {
+  background-color: map_get($colors, snake);
 }
 
 .apple {
@@ -100,54 +46,16 @@ button {
   background-size: cover;
 }
 
-#BTN-start-new-game {
-  width: 70%;
-  height: 80px;
-  margin: 0 auto;
-  background-color: yellow;
-  border: 0;
-  font-size: 30px;
-  font-weight: bold;
-  border-radius: 15px;
-  box-shadow: 0 10px 13px -7px #000000, 5px 5px 15px 5px rgba(0,0,0,0);
-  animation: scale 1s linear infinite;
-
-  &:hover {
-
-  }
-}
-
-#BTN-disabled-audio {
-  $size: 25px;
-  width: $size + 10px;
+#game-over-screen {
+  $size: 575px;
   height: $size;
-  position: absolute;
-  top: 0;
-  left: 0;
-  margin: 0;
-  padding: 0;
-  border: 0;
-  background-color: transparent;
-  background-size: cover;
-
-  &:hover {
-
-  }
-}
-
-.mute {
-  background: transparent url("../media/mute.png") no-repeat;
-}
-
-.unMute {
-  background: transparent url("../media/unMute.png") no-repeat;
-}
-
-@keyframes move-bg {
-  from {
-    background-position: right top;
-  }
-  to {
-    background-position: left bottom;
-  }
+  width: $size;
+  background-color: map_get($colors, transparent-black);
+  margin-top: -100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  padding: 10px;
+  border-radius: 25px;
+  box-shadow: inset 0 0 55px 0 map-get($colors, box-shadow-button);
 }

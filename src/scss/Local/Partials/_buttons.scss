@@ -1,0 +1,47 @@
+@import "../../Config/colors";
+
+button {
+  cursor: pointer;
+  padding: 0;
+  border: 0;
+  font-weight: bold;
+  border-radius: 15px;
+
+  &:hover {
+    transform: scale(1.2);
+  }
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.BTN-standard {
+  width: 70%;
+  height: 80px;
+  margin: 0 auto;
+  background-color: map_get($colors, button);
+  font-size: 30px;
+  box-shadow: 0 10px 13px -7px #000000, 5px 5px 15px 5px rgba(0,0,0,0);
+  animation: scale 1s linear infinite;
+}
+
+.BTN-audio {
+   $size: 25px;
+   width: $size + 10px;
+   height: $size;
+   position: absolute;
+   top: 0;
+   left: 0;
+   margin: 10px 0 0 10px;
+
+   &.mute {
+     background: transparent url("../../../media/mute.png") no-repeat;
+     background-size: cover;
+   }
+
+   &.unMute {
+     background: transparent url("../../../media/unMute.png") no-repeat;
+     background-size: cover;
+   }
+ }

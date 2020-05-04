@@ -9,7 +9,7 @@ function GameOverScreen({handleClicked}) {
                 <h1>You Failed!</h1>
             </section>
             <h3>Want to start over?</h3>
-            <button id={`BTN-start-new-game`}
+            <button className={`BTN-standard`}
                     onClick={handleClicked}>
                 Start Again
             </button>
