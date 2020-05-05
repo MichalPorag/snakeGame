@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import './scss/app.scss';
 
 import GameOverScreen from "./components/GameOverScreen";
@@ -6,31 +6,42 @@ import useInterval from './hooks/useInterval';
 
 function App() {
   const NUMBER_OF_LINES = 25;
+  const [snakePositions, setSnakePositions] = useState();
   const [snakeDirection, setSnakeDirection] = useState();
-  const [snakePositions, setSnakePositions] = useState([712,812,912,1012]);
   const [isGameOver, setIsGameOver] = useState();
   const [applePositions, setApplePositions] = useState();
   const [isSoundActive, setSoundActive] = useState();
-  console.log(`snakePosition: ${snakePositions}`);
+  const board = useRef();
+  console.log("Render isGameOver:",isGameOver)
+
 
   useEffect(() => {
-    setSnakeDirection("down");
-    // setSnakePositions([712,812,912,1012]);
-    setIsGameOver(false);
-    setApplePositions(getRandomCube());
+    startNewGame();
     setSoundActive(false);
 
-    document.addEventListener('keyup', handleKeyPress);
+    document.addEventListener('keyup', (e) => handleKeyPress(e));
 
     return () => {
       window.removeEventListener('keyup', handleKeyPress);
     };
   }, []);
 
+  useEffect(() => {
+    if (snakePositions) {
+      paintSnake();
+      paintApple();
+      // paintTreesOnTheBoard();
+      // paintWallsOnTheBoard();
+      // paintHousesOnTheBoard();
+    }
+  });
+
   useInterval(() => {
-    if (isSnakeHeadPositionValid(getSnakeHeadNewPosition())) {
-      updateSnakeBodyPosition();
-      if (isPositionEqualToApplePosition(getSnakeHeadNewPosition())) {
+    const snakeHead = getSnakeHeadNewPosition();
+    if (isSnakeHeadPositionValid(snakeHead)) {
+      updateSnakeBodyPosition(snakeHead);
+      if (isPositionEqualToApplePosition(snakeHead)) {
+        cleanApple();
         increaseSnakeBody();
         updateApplePosition();
         if (isSoundActive) {
@@ -39,12 +50,11 @@ function App() {
       }
     } else {
       gameOver();
-      // clearInterval(interval);
     }
-  }, isGameOver? null : 80);
+  }, isGameOver? null : 100);
 
   const getSnakeHeadNewPosition = () => {
-    let nextCube = 0;
+    let nextCube;
     switch (snakeDirection) {
       case "left":
         nextCube = snakePositions[snakePositions.length - 1] - 1;
@@ -107,17 +117,18 @@ function App() {
    * Snake position is valid if it is not in the same cube as
    * the snake, apple or tree.
    */
-  const isSnakeHeadPositionValid = (snakeHeadPositionToCheck) => {
-    return !(isPositionEqualToFrameOfBoard(snakeHeadPositionToCheck) ||
-           isPositionEqualToSnakePosition(snakeHeadPositionToCheck))
+  const isSnakeHeadPositionValid = (snakeHead) => {
+    return !(isPositionEqualToFrameOfBoard(snakeHead) ||
+           isPositionEqualToSnakePosition(snakeHead))
   };
 
   /*Update snake functions*/
-  function updateSnakeBodyPosition() {
+  function updateSnakeBodyPosition(snakeHead) {
       let currentSP = [...snakePositions];
-      currentSP.shift();
-      currentSP.push(getSnakeHeadNewPosition());
+      let lastCube = currentSP.shift();
+      currentSP.push(snakeHead);
       setSnakePositions([...currentSP]);
+      resetCubeStyle(lastCube);
   }
 
   const increaseSnakeBody = () => {
@@ -149,9 +160,14 @@ function App() {
     }
   };
 
-  //TODO: Fix multiply clicked!
-  const handleKeyPress = e => {
+  const handleKeyPress = (e) => {
     const {key} = e;
+    console.log(`>>>>>>>>>>>isGameOver:,${isGameOver}, is Enter: ${key === "Enter"}, ${key === "Enter" && isGameOver}`);
+    if (key === "Enter" && isGameOver) {
+      console.log(`${key} clicked`);
+      console.log("Enter");
+      startNewGame();
+    }
     if (!isGameOver) {
       console.log("key: ",key);
       switch (key) {
@@ -179,36 +195,45 @@ function App() {
           break;
       }
     }
-    if (key === "Enter" && isGameOver) {
-      console.log("Enter");
-      startNewGame();
+    // if (key === "Enter" && isGameOver) {
+    //   console.log(`${key} clicked`);
+    //   console.log("Enter");
+    //   startNewGame();
+    // }
+  };
+
+  const cleanBoard = () => {
+    cleanApple();
+    cleanSnake();
+    // cleanApple();
+    // cleanTrees();
+    // cleanHouses();
+    // cleanWalls();
+  };
+
+  const cleanSnake = () => {
+    for (let i = 0; i < snakePositions.length; i++) {
+      let cubeToRest = findCurrentCube(snakePositions[i]);
+      cubeToRest.classList = "cube";
+      // resetCubeStyle(cubeToRest);
     }
   };
 
-  function setCubeClass(snakePositions, i, j) {
-    let classToReturn = `cube ${(i * 100) + j}`;
-    if ((i * 100 + j) === applePositions) {
-      classToReturn += ` apple`
-    }
-    if (snakePositions && snakePositions.includes(i * 100 + j)) {
-      classToReturn += ` snake`
-    }
-    if (i === 0 || i === NUMBER_OF_LINES || j === 0 || j === NUMBER_OF_LINES) {
-      classToReturn += ` frame`
-    }
-    return classToReturn;
-  }
+  const cleanApple = () => {
+    let cubeToRest = findCurrentCube(applePositions);
+    cubeToRest.classList = "cube";
+  };
 
   let setCubes = () => {
     return [...Array(NUMBER_OF_LINES).keys()].map(i => (i === 0 || i === (NUMBER_OF_LINES - 1)) ?
         <div className={"frame-top-bottom"}
              key={i}/> :
-        <div className={`row ${i * 100}`} key={i * 100}>
+        <div className={`row i-${i}`} key={i * 100}>
           {[...Array(NUMBER_OF_LINES).keys()].map(j =>
               (j === 0 || j === (NUMBER_OF_LINES - 1)) ?
-              <div className={`frame-sides ${(i * 100) + j}`}
+              <div className={`frame-sides i-${i} j-${j}`}
                    key={(i * 100) + j}/> :
-              <div className={setCubeClass(snakePositions, i, j)}
+              <div className={"cube"}
                    key={(i * 100) + j}/>
           )}
         </div>
@@ -231,9 +256,45 @@ function App() {
   };
 
   const startNewGame = () => {
-    setSnakePositions([1015,915,815,715]);
-    setSnakeDirection("down");
     setIsGameOver(false);
+    console.log(`game over: ${isGameOver}`);
+    if (snakePositions) {
+      cleanBoard();
+    }
+    setSnakeDirection( "down");
+    setSnakePositions([715,815,915,1015]);
+    setApplePositions(getRandomCube());
+  };
+
+  const resetCubeStyle = (cube) => {
+    findCurrentCube(cube).classList = "cube";
+  };
+
+  const paintSnake = () => {
+    for (let i = 0; i < snakePositions.length; i++) {
+      let nextCubeToChange = findCurrentCube(snakePositions[i]);
+      const isSnake = nextCubeToChange.classList.value.includes("snake");
+      if (nextCubeToChange && !isSnake) {
+        nextCubeToChange.classList.add("snake");
+      }
+    }
+  };
+
+  const paintApple = () => {
+    let cubeToChange = findCurrentCube(applePositions);
+    if (cubeToChange) {
+      cubeToChange.classList.add("apple");
+    }
+  };
+
+  const findCurrentCube = (cubeNumber) => {
+    let currentRow = Math.floor(cubeNumber / 100);
+    let currentColumn = Math.floor(cubeNumber % 100);
+    let currentCube;
+    if (board.current.children[currentRow].children[currentColumn]) {
+      currentCube = board.current.children[currentRow].children[currentColumn];
+    }
+    return currentCube;
   };
 
   /*Sounds Functions*/
@@ -260,18 +321,18 @@ function App() {
 
   /*JSX*/
   return (
-    <React.Fragment>
+    <>
       <button
               className={`BTN-audio ${isSoundActive ? "unMute" : "mute"}`}
               onClick={handleSoundButtonClicked}/>
-      <main>
+      <main ref={board}>
         {setCubes()}
       </main>
       {isGameOver ?
           <GameOverScreen handleClicked={handleStartNewGameButtonClicked}/> :
           null
       }
-    </React.Fragment>
+    </>
   );
 }
 
