@@ -1,8 +1,13 @@
 import React, {useState, useEffect, useRef} from 'react';
 import './scss/app.scss';
 
+// import Game from "./components/Game/Game";
 import GameOverScreen from "./components/GameOverScreen";
 import useInterval from './hooks/useInterval';
+
+import logic from "./logic";
+import validation from "./validation";
+import sounds from "./validation";
 
 function App() {
   const NUMBER_OF_LINES = 25;
@@ -12,7 +17,7 @@ function App() {
   const [applePositions, setApplePositions] = useState();
   const [isSoundActive, setSoundActive] = useState();
   const board = useRef();
-  console.log("Render isGameOver:",isGameOver)
+  console.log("Render isGameOver:",isGameOver);
 
 
   useEffect(() => {
@@ -37,15 +42,15 @@ function App() {
   });
 
   useInterval(() => {
-    const snakeHead = getSnakeHeadNewPosition();
-    if (isSnakeHeadPositionValid(snakeHead)) {
+    const snakeHead = logic.getSnakeHeadNewPosition(snakeDirection, snakePositions);
+    if (validation.isSnakeHeadPositionValid(snakeHead, snakeDirection, snakePositions, NUMBER_OF_LINES)) {
       updateSnakeBodyPosition(snakeHead);
-      if (isPositionEqualToApplePosition(snakeHead)) {
+      if (validation.isEqualToApplePosition(snakeHead, applePositions)) {
         cleanApple();
         increaseSnakeBody();
         updateApplePosition();
         if (isSoundActive) {
-          playBurpSound();
+          sounds.playBurpSound();
         }
       }
     } else {
@@ -53,75 +58,7 @@ function App() {
     }
   }, isGameOver? null : 100);
 
-  const getSnakeHeadNewPosition = () => {
-    let nextCube;
-    switch (snakeDirection) {
-      case "left":
-        nextCube = snakePositions[snakePositions.length - 1] - 1;
-        break;
-      case "right":
-        nextCube = snakePositions[snakePositions.length - 1] + 1;
-        break;
-      case "down":
-        nextCube = snakePositions[snakePositions.length - 1] + 100;
-        break;
-      case "up":
-        nextCube = snakePositions[snakePositions.length - 1] - 100;
-        break;
-      default:
-        break;
-    }
-    return nextCube;
-  };
-
-  /*Run test on specific cube*/
-  const isPositionEqualToApplePosition = (cubeToCheck) => {
-    return cubeToCheck === applePositions;
-  };
-
-  const isPositionEqualToFrameOfBoard = (cubeToCheck) => {
-    let isSnakeHeadTouchFrame = false;
-    switch (snakeDirection) {
-      case "left":
-        isSnakeHeadTouchFrame = (cubeToCheck % 100) === 0;
-        break;
-      case "right":
-        isSnakeHeadTouchFrame = (cubeToCheck % 100) === (NUMBER_OF_LINES - 1);
-        break;
-      case "down":
-        isSnakeHeadTouchFrame = Math.floor(cubeToCheck / 100) === (NUMBER_OF_LINES - 1);
-        break;
-      case "up":
-        isSnakeHeadTouchFrame = Math.floor(cubeToCheck / 100) === 0;
-        break;
-      default:
-        break;
-    }
-    return isSnakeHeadTouchFrame;
-  };
-
-  const isPositionEqualToSnakePosition = (cubeToCheck) => {
-    return snakePositions.includes(cubeToCheck);
-  };
-
-  /**
-   * Apple position is valid if it is not in the same cube as
-   * the snake, apple or tree.
-   */
-  const isApplePositionValid = (applePositionToCheck) => {
-    return !(isPositionEqualToSnakePosition(applePositionToCheck) &&
-           isPositionEqualToApplePosition(applePositionToCheck))
-  };
-
-  /**
-   * Snake position is valid if it is not in the same cube as
-   * the snake, apple or tree.
-   */
-  const isSnakeHeadPositionValid = (snakeHead) => {
-    return !(isPositionEqualToFrameOfBoard(snakeHead) ||
-           isPositionEqualToSnakePosition(snakeHead))
-  };
-
+  //TODO: move to Game component.
   /*Update snake functions*/
   function updateSnakeBodyPosition(snakeHead) {
       let currentSP = [...snakePositions];
@@ -131,6 +68,7 @@ function App() {
       resetCubeStyle(lastCube);
   }
 
+  //TODO: move to Game component.
   const increaseSnakeBody = () => {
     switch (snakeDirection) {
       case "right":
@@ -150,10 +88,11 @@ function App() {
     }
   };
 
+  //TODO: move to Apple component.
   /**Get in to recursion until the cube the is valid*/
   const updateApplePosition = () => {
-    let newRandomCube = getRandomCube();
-    if (isApplePositionValid(newRandomCube)) {
+    let newRandomCube = logic.getRandomCube(1, NUMBER_OF_LINES - 2);
+    if (validation.isApplePositionValid(newRandomCube, snakePositions, applePositions)) {
       setApplePositions(newRandomCube);
     } else {
       updateApplePosition();
@@ -202,6 +141,8 @@ function App() {
     // }
   };
 
+  //TODO: move to Game component.
+  /*CleanUp functions*/
   const cleanBoard = () => {
     cleanApple();
     cleanSnake();
@@ -211,19 +152,22 @@ function App() {
     // cleanWalls();
   };
 
+  //TODO: move to Snake component.
   const cleanSnake = () => {
     for (let i = 0; i < snakePositions.length; i++) {
-      let cubeToRest = findCurrentCube(snakePositions[i]);
+      let cubeToRest = logic.findCurrentCube(snakePositions[i], board);
       cubeToRest.classList = "cube";
       // resetCubeStyle(cubeToRest);
     }
   };
 
+  //TODO: move to Apple component.
   const cleanApple = () => {
-    let cubeToRest = findCurrentCube(applePositions);
+    let cubeToRest = logic.findCurrentCube(applePositions, board);
     cubeToRest.classList = "cube";
   };
 
+  //TODO: move to Game component.
   let setCubes = () => {
     return [...Array(NUMBER_OF_LINES).keys()].map(i => (i === 0 || i === (NUMBER_OF_LINES - 1)) ?
         <div className={"frame-top-bottom"}
@@ -240,21 +184,14 @@ function App() {
     );
   };
 
-  function getRandomCube() {
-    let unitsAndTens = getRndInteger(1, NUMBER_OF_LINES - 2);
-    let hundredsAndThousands = getRndInteger(1, NUMBER_OF_LINES - 2) * 100;
-    return hundredsAndThousands + unitsAndTens;
-  }
-
-  function getRndInteger(min, max) {
-    return Math.floor(Math.random() * (max - min)) + min;
-  }
-
+  //TODO: move to GameOver component.
+  /*Start and finish games*/
   const gameOver = () => {
-    playSadSound();
+    // playSadSound();
     setIsGameOver(true);
   };
 
+  //TODO: move to Game component.
   const startNewGame = () => {
     setIsGameOver(false);
     console.log(`game over: ${isGameOver}`);
@@ -263,16 +200,19 @@ function App() {
     }
     setSnakeDirection( "down");
     setSnakePositions([715,815,915,1015]);
-    setApplePositions(getRandomCube());
+    setApplePositions(logic.getRandomCube(1, NUMBER_OF_LINES - 2));
   };
 
+  //TODO: move to Game component.
+  /*Functions that change style*/
   const resetCubeStyle = (cube) => {
-    findCurrentCube(cube).classList = "cube";
+    logic.findCurrentCube(cube, board).classList = "cube";
   };
 
+  //TODO: move to Snake component.
   const paintSnake = () => {
     for (let i = 0; i < snakePositions.length; i++) {
-      let nextCubeToChange = findCurrentCube(snakePositions[i]);
+      let nextCubeToChange = logic.findCurrentCube(snakePositions[i], board);
       const isSnake = nextCubeToChange.classList.value.includes("snake");
       if (nextCubeToChange && !isSnake) {
         nextCubeToChange.classList.add("snake");
@@ -280,43 +220,24 @@ function App() {
     }
   };
 
+  //TODO: move to Apple component.
   const paintApple = () => {
-    let cubeToChange = findCurrentCube(applePositions);
+    let cubeToChange = logic.findCurrentCube(applePositions, board);
     if (cubeToChange) {
       cubeToChange.classList.add("apple");
     }
   };
 
-  const findCurrentCube = (cubeNumber) => {
-    let currentRow = Math.floor(cubeNumber / 100);
-    let currentColumn = Math.floor(cubeNumber % 100);
-    let currentCube;
-    if (board.current.children[currentRow].children[currentColumn]) {
-      currentCube = board.current.children[currentRow].children[currentColumn];
-    }
-    return currentCube;
+  //TODO: move to GameOver component.
+  const handleStartNewGameButtonClicked = () => {
+    startNewGame()
   };
 
-  /*Sounds Functions*/
-  const playSadSound = () => {
-    // const sad = new Audio("https://www.fesliyanstudios.com/play-mp3/5645");
-    // sad.play().catch(e => console.error(e));
-  };
 
-  const playBurpSound = () => {
-    window.setTimeout(function () {
-      const burp = new Audio("https://www.fesliyanstudios.com/play-mp3/5759");
-      burp.play().catch(e => console.error(e));
-    }, 100);
-  };
 
   /*Handle buttons Clicks Functions*/
   const handleSoundButtonClicked = () => {
     return isSoundActive ? setSoundActive(false) : setSoundActive(true);
-  };
-
-  const handleStartNewGameButtonClicked = () => {
-    startNewGame()
   };
 
   /*JSX*/
