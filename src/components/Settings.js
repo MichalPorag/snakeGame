@@ -1,6 +1,6 @@
 import React from 'react';
 
-function GameOverScreen({startAgainClicked}) {
+function Settings({handleClicked}) {
     return (
         <div id={"game-over-screen"}
              className={"show"}>
@@ -10,11 +10,11 @@ function GameOverScreen({startAgainClicked}) {
             </section>
             <h3>Want to start over?</h3>
             <button className={`BTN-standard`}
-                    onClick={startAgainClicked}>
+                    onClick={handleClicked}>
                 Start Again
             </button>
         </div>
     );
 }
 
-export default GameOverScreen;
+export default Settings;

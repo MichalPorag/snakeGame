@@ -24,7 +24,7 @@ module.exports = {
         return isSnakeHeadTouchFrame;
     },
 
-    isEqualToSnakePosition: (cube, snakePositions) => {
+    isEqualToSnakeHeadPosition: (cube, snakePositions) => {
         return snakePositions.includes(cube);
     },
 
@@ -34,7 +34,7 @@ module.exports = {
      */
     isSnakeHeadPositionValid: (snakeHead, snakeDirection, snakePositions, NUMBER_OF_LINES) => {
         return !(module.exports.isEqualToFrameOfBoard(snakeHead, snakeDirection, snakePositions, NUMBER_OF_LINES) ||
-            module.exports.isEqualToSnakePosition(snakeHead, snakePositions))
+            module.exports.isEqualToSnakeHeadPosition(snakeHead, snakePositions))
     },
 
     /**
@@ -42,8 +42,7 @@ module.exports = {
      * the snake, apple or tree.
      */
     isApplePositionValid: (applePositionToCheck, snakePositions, applePositions) => {
-        return !(module.exports.isEqualToSnakePosition(applePositionToCheck, snakePositions) &&
+        return !(module.exports.isEqualToSnakeHeadPosition(applePositionToCheck, snakePositions) &&
             module.exports.isEqualToApplePosition(applePositionToCheck, applePositions))
     },
-
 };

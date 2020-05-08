@@ -1,31 +1,22 @@
-import React from 'react';
-import './scss/app.scss';
-
-import logic from "../../utils/utilsFunctions";
-import validation from "../../utils/validation";
-
-function Apple() {
-    const paintApple = () => {
-        let cubeToChange = logic.findCurrentCube(applePositions, board);
+module.exports = {
+    paint: (findCurrentCube, applePositions, board) => {
+        let cubeToChange = findCurrentCube(applePositions.row, applePositions.column, board);
         if (cubeToChange) {
             cubeToChange.classList.add("apple");
         }
-    };
+    },
 
-    const cleanApple = () => {
-        let cubeToRest = logic.findCurrentCube(applePositions, board);
-        cubeToRest.classList = "cube";
-    };
-
-    /**Get in to recursion until the cube the is valid*/
-    const updateApplePosition = () => {
-        let newRandomCube = logic.getRandomCube(1, NUMBER_OF_LINES - 2);
-        if (validation.isApplePositionValid(newRandomCube, snakePositions, applePositions)) {
+    updatePosition: (isApplePositionValid, setApplePositions, getRandomCube, snakePositions, applePositions, NUMBER_OF_LINES) => {
+        let newRandomCube = getRandomCube(1, NUMBER_OF_LINES - 2);
+        if (isApplePositionValid(newRandomCube, snakePositions, applePositions)) {
             setApplePositions(newRandomCube);
         } else {
-            updateApplePosition();
+            module.exports.updatePosition();
         }
-    };
-}
+    },
 
-export default Apple;
+    destroy: (board, applePositions, findCurrentCube) => {
+        let cubeToRest = findCurrentCube(applePositions, board);
+        cubeToRest.classList = "cube";
+    },
+};
