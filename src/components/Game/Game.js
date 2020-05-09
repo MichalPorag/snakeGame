@@ -12,37 +12,37 @@ import apple from "./Apple";
 // import walls from "./walls";
 // import houses from "./houses";
 
-import GameOverScreen from "../GameOverScreen";
-import Settings from "../Settings";
-import SoundButton from "../SoundButton";
+import DataContainer from "./DataContainer/DataContainer";
+import GameOverScreen from "./GameOverScreen";
+import Settings from "./Settings";
 
 function Game({NUMBER_OF_LINES}) {
     const [snakePositions, setSnakePositions] = useState();
     const [snakeDirection, setSnakeDirection] = useState();
     const [applePositions, setApplePositions] = useState();
     const [isGameOver, setIsGameOver] = useState(true);
-    // const [openScreen, setOpenScreen] = useState("GameOverScreen");
+    const [isSettingsScreenOpen, setSettingsScreen] = useState(false);
     const [isSoundActive, setSoundActive] = useState(false);
-    // const [mode, setMode] = useState();
-    // const [level, setLevel] = useState();
+    const [level, setLevel] = useState("beginners");
+    const [mode, setMode] = useState();
+    const [score, setScore] = useState(0);
     const board = useRef();
+
 
     useEffect(() => {
         document.addEventListener('keyup',
             (e) => handleKeyPress(e, isGameOver));
 
-        return () => {
-            window.removeEventListener('keyup', handleKeyPress);
-        }
-    }, [snakePositions, isGameOver]);
-
-    useEffect(() => {
         if (snakePositions && !isGameOver) {
             snake.paint(utilsFunctions.findCurrentCube, snakePositions, board);
             apple.paint(utilsFunctions.findCurrentCube, applePositions, board);
             // paintTreesOnTheBoard();
             // paintWallsOnTheBoard();
             // paintHousesOnTheBoard();
+        }
+
+        return () => {
+            window.removeEventListener('keyup', handleKeyPress);
         }
     }, [snakePositions, isGameOver]);
 
@@ -66,6 +66,7 @@ function Game({NUMBER_OF_LINES}) {
                                      snakePositions,
                                      applePositions,
                                      NUMBER_OF_LINES);
+                setScore(score + 1);
                 if (isSoundActive) {
                     sounds.playBurpSound();
                 }
@@ -73,7 +74,7 @@ function Game({NUMBER_OF_LINES}) {
         } else {
             gameOver();
         }
-    }, isGameOver? null : 500);
+    }, isGameOver? null : utilsFunctions.getSpeed(level));
 
     const startNewGame = () => {
         setIsGameOver(false);
@@ -115,7 +116,6 @@ function Game({NUMBER_OF_LINES}) {
 
     const handleKeyPress = (e) => {
         const {key} = e;
-        console.log("key:", key);
         if (!isGameOver) {
             switch (key) {
                 case "ArrowLeft":
@@ -147,7 +147,10 @@ function Game({NUMBER_OF_LINES}) {
         }
     };
 
-    const handleStartNewGameButtonClicked = () => {
+    const handleStartNewGameButtonClicked = (gameSettings) => {
+        setLevel(gameSettings.level);
+        setMode(gameSettings.mode);
+        setSettingsScreen(false);
         startNewGame();
     };
 
@@ -155,15 +158,23 @@ function Game({NUMBER_OF_LINES}) {
      * Toggle isSoundActive useState.
      */
     const handleSoundButtonClicked = () => {
-        return isSoundActive ?
+        isSoundActive ?
             setSoundActive(false) :
             setSoundActive(true);
+    };
+
+    const handleSettingsButtonClicked = () => {
+        console.log("I clicked");
+        isSettingsScreenOpen ?
+            setSettingsScreen(false) :
+            setSettingsScreen(true);
     };
 
     /**
      * Reset board style.
      */
     const resetBoard = () => {
+        setScore(0);
         apple.destroy(utilsFunctions.findCurrentCube, applePositions, board);
         snake.destroy(utilsFunctions.findCurrentCube, snakePositions, board);
         // trees.destroy();
@@ -171,41 +182,33 @@ function Game({NUMBER_OF_LINES}) {
         // walls.destroy();
     };
 
-    // /**
-    //  * Return the screen the user requested to open or null
-    //  * if the user didn't request to open any screen.
-    //  *
-    //  * TODO: create the logic of the function
-    //  */
-    // const showRelevantScreen = () => {
-    //     switch (openScreen) {
-    //         case "GameOverScreen":
-    //             return <GameOverScreen />;
-    //             break;
-    //         case "settings":
-    //             return <Settings />;
-    //             break;
-    //         default:
-    //             return null;
-    //             break;
-    //     }
-    // };
-
     return (
         <>
             <main>
-                <SoundButton
+                <DataContainer
                     isSoundActive={isSoundActive}
-                    soundButtonClicked={handleSoundButtonClicked} />
-                <div  ref={board}>
+                    soundButtonClicked={handleSoundButtonClicked}
+                    settingsButtonClicked={handleSettingsButtonClicked}
+                    score={score}/>
+                <div id={"board-container"}
+                     ref={board}>
                     {setCubes()}
                 </div>
             </main>
-            {/*{showRelevantScreen}*/}
-            {isGameOver ?
+            {
+                isGameOver && !isSettingsScreenOpen ?
                 <GameOverScreen
                 startAgainClicked={handleStartNewGameButtonClicked}/> :
-                null}
+                null
+            }
+            {
+                isSettingsScreenOpen ?
+                    <Settings startGameClicked={handleStartNewGameButtonClicked}
+                              level={level}
+                              mode={mode}/> :
+                    null
+            }
+
         </>
     );
 }

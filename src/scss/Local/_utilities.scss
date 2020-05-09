@@ -5,3 +5,11 @@
 .show {
   display: flex;
 }
+
+.disable {
+  opacity: 0.5;
+
+  &:hover {
+    transform: scale(1);
+  }
+}

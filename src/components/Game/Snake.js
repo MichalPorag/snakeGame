@@ -4,6 +4,7 @@ module.exports = {
             let nextCubeToChange = findCurrentCube(snakePositions[i].row, snakePositions[i].column, board);
             const isSnake = nextCubeToChange.classList.value.includes("snake");
             if (nextCubeToChange && !isSnake) {
+                nextCubeToChange.classList.remove("apple")
                 nextCubeToChange.classList.add("snake");
             }
         }

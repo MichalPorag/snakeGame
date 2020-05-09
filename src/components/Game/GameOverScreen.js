@@ -2,8 +2,7 @@ import React from 'react';
 
 function GameOverScreen({startAgainClicked}) {
     return (
-        <div id={"game-over-screen"}
-             className={"show"}>
+        <div className={"layout-screen "}>
             <section>
                 <h2>Ohh...</h2>
                 <h1>You Failed!</h1>

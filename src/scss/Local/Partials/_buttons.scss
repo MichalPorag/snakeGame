@@ -8,6 +8,7 @@ button {
   border-radius: 15px;
 
   &:hover {
+    //TODO: Add animation - it's not look good in the settings screen
     transform: scale(1.2);
   }
 
@@ -30,10 +31,6 @@ button {
    $size: 25px;
    width: $size + 10px;
    height: $size;
-   position: absolute;
-   top: 0;
-   left: 0;
-   margin: 10px 0 0 10px;
 
    &.mute {
      background: transparent url("../../../media/mute.png") no-repeat;
@@ -45,3 +42,33 @@ button {
      background-size: cover;
    }
  }
+
+.BTN-settings {
+  $size: 25px;
+  width: $size;
+  height: $size;
+  //background-color: red;
+  background: url("../../../media/settings.png") no-repeat;
+  background-size: contain;
+}
+
+.BTN-pick-setting {
+  $size: 100px;
+  width: $size + 50px;
+  height: $size;
+  background-color: red;
+}
+
+.BTN-back {
+  $size: 40px;
+  width: $size;
+  height: $size;
+  background: url("../../../media/arrow.png") no-repeat;
+  background-size: contain;
+  //background-color: purple;
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 40px 40px 0 0;
+}
+

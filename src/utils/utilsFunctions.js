@@ -23,4 +23,14 @@ module.exports = {
     resetCubeStyle: (currentRow, currentColumn, board) => {
         module.exports.findCurrentCube(currentRow, currentColumn, board).classList = "cube";
     },
+
+    getSpeed: (level) => {
+        if (level === "advanced") {
+            return 70;
+        } else if (level === "averages") {
+            return  200;
+        } else {
+            return  500;
+        }
+    }
 };
