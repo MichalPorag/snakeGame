@@ -5,7 +5,7 @@ import useInterval from '../../hooks/useInterval';
 
 import utilsFunctions from "../../utils/utilsFunctions";
 import validation from "../../utils/validation";
-// import sounds from "../../utils/sounds";
+import sounds from "../../utils/sounds";
 import snake from "./Snake";
 import apple from "./Apple";
 // import trees from "./Trees";
@@ -22,55 +22,64 @@ function Game({NUMBER_OF_LINES}) {
     const [applePositions, setApplePositions] = useState();
     const [isGameOver, setIsGameOver] = useState(true);
     // const [openScreen, setOpenScreen] = useState("GameOverScreen");
-    const [isSoundActive, setSoundActive] = useState();
+    const [isSoundActive, setSoundActive] = useState(false);
     // const [mode, setMode] = useState();
     // const [level, setLevel] = useState();
     const board = useRef();
 
     useEffect(() => {
-        setSoundActive(false);
-
         document.addEventListener('keyup',
             (e) => handleKeyPress(e, isGameOver));
 
         return () => {
             window.removeEventListener('keyup', handleKeyPress);
         }
-    }, []);
+    }, [snakePositions, isGameOver]);
 
     useEffect(() => {
-        if (snakePositions) {
+        if (snakePositions && !isGameOver) {
             snake.paint(utilsFunctions.findCurrentCube, snakePositions, board);
             apple.paint(utilsFunctions.findCurrentCube, applePositions, board);
             // paintTreesOnTheBoard();
             // paintWallsOnTheBoard();
             // paintHousesOnTheBoard();
         }
-    }, [snakePositions]);
+    }, [snakePositions, isGameOver]);
 
     useInterval(() => {
-        console.log("I am at useInterval");
         const snakeHead = snake.getNextHeadPosition(snakeDirection, snakePositions);
-        if (validation.isSnakeHeadPositionValid(snakeHead, snakeDirection, snakePositions, NUMBER_OF_LINES)) {
-            snake.updatePosition(snakeHead, snakePositions, setSnakePositions, utilsFunctions.resetCubeStyle, board);
-            // if (validation.isEqualToApplePosition(snakeHead, applePositions)) {
-            //     apple.destroy();
-            //     snake.increase();
-            //     apple.updatePosition();
-            //     if (isSoundActive) {
-            //         sounds.playBurpSound();
-            //     }
-            // }
+        if (validation.isSnakeHeadPositionValid(snakeHead,
+                                                snakeDirection,
+                                                snakePositions,
+                                                NUMBER_OF_LINES)) {
+            snake.updatePosition(snakeHead,
+                                 snakePositions,
+                                 setSnakePositions,
+                                 utilsFunctions.resetCubeStyle,
+                                 board);
+            if (validation.isEqualToApplePosition(snakeHead,applePositions)) {
+                apple.destroy(utilsFunctions.findCurrentCube, applePositions, board);
+                snake.increase(setSnakePositions,snakeDirection, snakePositions);
+                apple.updatePosition(validation.isApplePositionValid,
+                                     utilsFunctions.getRandomCube,
+                                     setApplePositions,
+                                     snakePositions,
+                                     applePositions,
+                                     NUMBER_OF_LINES);
+                if (isSoundActive) {
+                    sounds.playBurpSound();
+                }
+            }
         } else {
             gameOver();
         }
-    }, isGameOver? null : 5000);
+    }, isGameOver? null : 500);
 
     const startNewGame = () => {
         setIsGameOver(false);
-        // if (snakePositions) {
-        //     resetBoard();
-        // }
+        if (snakePositions) {
+            resetBoard();
+        }
         setSnakeDirection( "down");
         setSnakePositions(
             [
@@ -106,9 +115,8 @@ function Game({NUMBER_OF_LINES}) {
 
     const handleKeyPress = (e) => {
         const {key} = e;
-        console.log(`key: ${key}`);
+        console.log("key:", key);
         if (!isGameOver) {
-            console.log("key: ",key);
             switch (key) {
                 case "ArrowLeft":
                     if (snakeDirection !== "right" && snakeDirection !== "left") {
@@ -156,8 +164,8 @@ function Game({NUMBER_OF_LINES}) {
      * Reset board style.
      */
     const resetBoard = () => {
-        apple.destroy(board, applePositions, utilsFunctions.findCurrentCube);
-        snake.destroy();
+        apple.destroy(utilsFunctions.findCurrentCube, applePositions, board);
+        snake.destroy(utilsFunctions.findCurrentCube, snakePositions, board);
         // trees.destroy();
         // houses.destroy();
         // walls.destroy();

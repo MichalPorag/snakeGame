@@ -1,22 +1,22 @@
 module.exports = {
     isEqualToApplePosition: (cube, applePositions) => {
-        return cube === applePositions;
+        return cube.row === applePositions.row && cube.column === applePositions.column;
     },
 
-    isEqualToFrameOfBoard: (cube, snakeDirection, NUMBER_OF_LINES) => {
+    isEqualToFrameOfBoard: (cube, snakeDirection, snakePositions, NUMBER_OF_LINES) => {
         let isSnakeHeadTouchFrame = false;
         switch (snakeDirection) {
             case "left":
-                isSnakeHeadTouchFrame = (cube % 100) === 0;
+                isSnakeHeadTouchFrame = cube.column === 0;
                 break;
             case "right":
-                isSnakeHeadTouchFrame = (cube % 100) === (NUMBER_OF_LINES - 1);
+                isSnakeHeadTouchFrame = cube.column === (NUMBER_OF_LINES - 1);
                 break;
             case "down":
-                isSnakeHeadTouchFrame = Math.floor(cube / 100) === (NUMBER_OF_LINES - 1);
+                isSnakeHeadTouchFrame = cube.row === (NUMBER_OF_LINES - 1);
                 break;
             case "up":
-                isSnakeHeadTouchFrame = Math.floor(cube / 100) === 0;
+                isSnakeHeadTouchFrame = cube.row === 0;
                 break;
             default:
                 break;
@@ -25,7 +25,12 @@ module.exports = {
     },
 
     isEqualToSnakeHeadPosition: (cube, snakePositions) => {
-        return snakePositions.includes(cube);
+        for (const snakePart of snakePositions) {
+            if (cube.row !== snakePart.row || cube.column !== snakePart.column) {
+                return false;
+            }
+        }
+        return true;
     },
 
     /**
@@ -41,8 +46,8 @@ module.exports = {
      * Apple position is valid if it is not in the same cube as
      * the snake, apple or tree.
      */
-    isApplePositionValid: (applePositionToCheck, snakePositions, applePositions) => {
-        return !(module.exports.isEqualToSnakeHeadPosition(applePositionToCheck, snakePositions) &&
-            module.exports.isEqualToApplePosition(applePositionToCheck, applePositions))
+    isApplePositionValid: (newApplePositions, snakePositions, lastApplePosition) => {
+        return !(module.exports.isEqualToSnakeHeadPosition(newApplePositions, snakePositions) &&
+            module.exports.isEqualToApplePosition(newApplePositions, lastApplePosition))
     },
 };

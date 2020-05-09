@@ -9,23 +9,27 @@ module.exports = {
         }
     },
 
-    increase: (snakeDirection, snakePositions, setSnakePositions) => {
+    increase: (setSnakePositions, snakeDirection, snakePositions) => {
+        const snakeHead = snakePositions[snakePositions.length - 1];
+        let newSnake = [...snakePositions];
         switch (snakeDirection) {
             case "right":
-                setSnakePositions([...snakePositions, snakePositions[snakePositions.length - 1] + 1]);
+                snakeHead.column = snakeHead.column + 1;
                 break;
             case "left":
-                setSnakePositions([...snakePositions, snakePositions[snakePositions.length - 1] - 1]);
+                snakeHead.column = snakeHead.column - 1;
                 break;
             case "up":
-                setSnakePositions([...snakePositions, snakePositions[snakePositions.length - 1] - 100]);
+                snakeHead.row = snakeHead.row - 1;
                 break;
             case "down":
-                setSnakePositions([...snakePositions, snakePositions[snakePositions.length - 1] + 100]);
+                snakeHead.row = snakeHead.row + 1;
                 break;
             default:
                 break;
         }
+        newSnake.push(snakeHead);
+        setSnakePositions(newSnake);
     },
 
     updatePosition: (snakeHead, snakePositions, setSnakePositions, resetCubeStyle, board) => {
@@ -38,7 +42,6 @@ module.exports = {
 
     getNextHeadPosition: (direction, snakePositions) => {
         let nextCube = {...snakePositions[snakePositions.length - 1]};
-        console.log(`nextCube before: ${JSON.stringify(nextCube)}`);
         switch (direction) {
             case "left":
                 nextCube.column -= 1;
@@ -55,13 +58,12 @@ module.exports = {
             default:
                 break;
         }
-        console.log(`nextCube after: ${JSON.stringify(nextCube)}`);
         return nextCube;
     },
 
-    destroy: (snakePositions, board, findCurrentCube) => {
+    destroy: (findCurrentCube, snakePositions, board) => {
         for (let i = 0; i < snakePositions.length; i++) {
-            let cubeToRest = findCurrentCube(snakePositions[i], board);
+            let cubeToRest = findCurrentCube(snakePositions[i].row, snakePositions[i].column, board);
             cubeToRest.classList = "cube";
             // resetCubeStyle(cubeToRest);
         }

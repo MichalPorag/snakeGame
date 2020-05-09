@@ -6,7 +6,7 @@ module.exports = {
         }
     },
 
-    updatePosition: (isApplePositionValid, setApplePositions, getRandomCube, snakePositions, applePositions, NUMBER_OF_LINES) => {
+    updatePosition: (isApplePositionValid, getRandomCube, setApplePositions, snakePositions, applePositions, NUMBER_OF_LINES) => {
         let newRandomCube = getRandomCube(1, NUMBER_OF_LINES - 2);
         if (isApplePositionValid(newRandomCube, snakePositions, applePositions)) {
             setApplePositions(newRandomCube);
@@ -15,8 +15,8 @@ module.exports = {
         }
     },
 
-    destroy: (board, applePositions, findCurrentCube) => {
-        let cubeToRest = findCurrentCube(applePositions, board);
+    destroy: (findCurrentCube, applePositions, board) => {
+        let cubeToRest = findCurrentCube(applePositions.row, applePositions.column, board);
         cubeToRest.classList = "cube";
     },
 };
