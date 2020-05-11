@@ -23,6 +23,7 @@ button {
   border: 0;
   font-weight: bold;
   border-radius: 15px;
+  transition-duration: 0.2s;
 }
 button:hover {
   transform: scale(1.2);
@@ -95,6 +96,35 @@ h3 {
   font-size: 40px;
 }
 
+h4 {
+  padding-top: 8px;
+  font-size: 30px;
+}
+
+.snake {
+  background-color: red;
+}
+
+.snake-head-down {
+  background-color: black;
+  border-radius: 0 0 50px 50px;
+}
+
+.snake-head-up {
+  background-color: black;
+  border-radius: 50px 50px 0 0;
+}
+
+.snake-head-right {
+  background-color: black;
+  border-radius: 0 50px 50px 0;
+}
+
+.snake-head-left {
+  background-color: black;
+  border-radius: 50px 0 0 50px;
+}
+
 .hide {
   display: none;
 }
@@ -108,6 +138,10 @@ h3 {
 }
 .disable:hover {
   transform: scale(1);
+}
+
+.brown {
+  color: #954F0F;
 }
 
 /*Flex*/
@@ -124,6 +158,7 @@ body {
   background: url("../media/ocean.jpg") repeat;
   background-size: unset;
   animation: move-bg 100s linear infinite;
+  margin: 0;
 }
 
 main {
@@ -167,10 +202,6 @@ section h3 {
 .cube {
   width: 25px;
   height: 25px;
-}
-
-.snake {
-  background-color: red;
 }
 
 .apple {

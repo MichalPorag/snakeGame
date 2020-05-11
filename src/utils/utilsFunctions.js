@@ -21,7 +21,7 @@ module.exports = {
 
     /*Functions that change style*/
     resetCubeStyle: (currentRow, currentColumn, board) => {
-        module.exports.findCurrentCube(currentRow, currentColumn, board).classList = "cube";
+        module.exports.findCurrentCube(currentRow, currentColumn, board).classList = ["cube"];
     },
 
     getSpeed: (level) => {
@@ -32,5 +32,16 @@ module.exports = {
         } else {
             return  500;
         }
+    },
+
+    gameOver: (setIsGameOver) => {
+        setIsGameOver(true);
+    },
+
+    handleSoundButtonClicked: (setSoundActive, isSoundActive) => {
+        isSoundActive ?
+            setSoundActive(false) :
+            setSoundActive(true);
     }
+
 };

@@ -26,12 +26,22 @@ function Game({NUMBER_OF_LINES}) {
     const [level, setLevel] = useState("beginners");
     const [mode, setMode] = useState();
     const [score, setScore] = useState(0);
+    const [key, setKey] = useState();
     const board = useRef();
-
 
     useEffect(() => {
         document.addEventListener('keyup',
-            (e) => handleKeyPress(e, isGameOver));
+            (e) => {
+                handleKeyPress(e);
+            });
+
+            const handleKeyPress = (e) => {
+                if (e.key === "ArrowLeft" || e.key === "ArrowRight" ||
+                    e.key === "ArrowDown" || e.key === "ArrowUp" ||
+                    e.key === "Enter") {
+                    setKey(e.key);
+                }
+            };
 
         if (snakePositions && !isGameOver) {
             snake.paint(utilsFunctions.findCurrentCube, snakePositions, board);
@@ -44,22 +54,29 @@ function Game({NUMBER_OF_LINES}) {
         return () => {
             window.removeEventListener('keyup', handleKeyPress);
         }
-    }, [snakePositions, isGameOver]);
+    }, [snakePositions, isGameOver, applePositions, key]);
 
     useInterval(() => {
-        const snakeHead = snake.getNextHeadPosition(snakeDirection, snakePositions);
-        if (validation.isSnakeHeadPositionValid(snakeHead,
+        console.log(key);
+        handleKeyChange(key);
+        const snakeNextHead = snake.getNextHeadPosition(snakeDirection, snakePositions);
+        if (validation.isSnakeHeadPositionValid(snakeNextHead,
                                                 snakeDirection,
                                                 snakePositions,
                                                 NUMBER_OF_LINES)) {
-            snake.updatePosition(snakeHead,
-                                 snakePositions,
-                                 setSnakePositions,
-                                 utilsFunctions.resetCubeStyle,
-                                 board);
-            if (validation.isEqualToApplePosition(snakeHead,applePositions)) {
-                apple.destroy(utilsFunctions.findCurrentCube, applePositions, board);
-                snake.increase(setSnakePositions,snakeDirection, snakePositions);
+            // const isSnakeBodyPositionUpdates = await snake.updateBodyPosition(snakeNextHead,
+            snake.updateBodyPosition(snakeNextHead,
+                snakePositions,
+                setSnakePositions,
+                utilsFunctions.resetCubeStyle,
+                board);
+            if (validation.isEqualToApplePosition(snakeNextHead,applePositions)) {
+                apple.destroy(utilsFunctions.findCurrentCube,
+                              applePositions,
+                              board);
+                snake.increase(setSnakePositions,
+                               snakeDirection,
+                               snakePositions);
                 apple.updatePosition(validation.isApplePositionValid,
                                      utilsFunctions.getRandomCube,
                                      setApplePositions,
@@ -72,7 +89,7 @@ function Game({NUMBER_OF_LINES}) {
                 }
             }
         } else {
-            gameOver();
+            utilsFunctions.gameOver(setIsGameOver);
         }
     }, isGameOver? null : utilsFunctions.getSpeed(level));
 
@@ -114,8 +131,7 @@ function Game({NUMBER_OF_LINES}) {
         setIsGameOver(true);
     };
 
-    const handleKeyPress = (e) => {
-        const {key} = e;
+    const handleKeyChange = () => {
         if (!isGameOver) {
             switch (key) {
                 case "ArrowLeft":

@@ -38,8 +38,14 @@ module.exports = {
      * the snake, apple or tree.
      */
     isSnakeHeadPositionValid: (snakeHead, snakeDirection, snakePositions, NUMBER_OF_LINES) => {
-        return !(module.exports.isEqualToFrameOfBoard(snakeHead, snakeDirection, snakePositions, NUMBER_OF_LINES) ||
-            module.exports.isEqualToSnakeHeadPosition(snakeHead, snakePositions))
+        return !(
+            module.exports.isEqualToFrameOfBoard(snakeHead,
+                                                      snakeDirection,
+                                                      snakePositions,
+                                                      NUMBER_OF_LINES)
+            ||
+            module.exports.isEqualToSnakeHeadPosition(snakeHead, snakePositions)
+        )
     },
 
     /**

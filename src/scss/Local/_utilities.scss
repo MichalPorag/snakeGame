@@ -1,3 +1,5 @@
+@import "../Config/_colors";
+
 .hide {
   display: none;
 }
@@ -12,4 +14,9 @@
   &:hover {
     transform: scale(1);
   }
+}
+
+
+.brown {
+  color: map_get($colors, brown);
 }

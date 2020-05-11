@@ -1,0 +1,23 @@
+.snake {
+  background-color: map_get($colors, snake);
+}
+
+.snake-head-down {
+  background-color: black;
+  border-radius: 0 0 50px 50px;
+}
+
+.snake-head-up {
+  background-color: black;
+  border-radius: 50px 50px 0 0;
+}
+
+.snake-head-right {
+  background-color: black;
+  border-radius: 0 50px 50px 0;
+}
+
+.snake-head-left {
+  background-color: black;
+  border-radius: 50px 0 0 50px;
+}

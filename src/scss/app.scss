@@ -3,6 +3,7 @@
 
 @import "Local/Partials/_buttons",
         "Local/Partials/_titls.scss",
+        "Local/Partials/_snake.scss",
         "Local/_utilities",
         "Local/_reset",
         "Local/_mixins",
@@ -20,6 +21,7 @@ body {
   background: url("../media/ocean.jpg") repeat;
   background-size: unset;
   animation: move-bg 100s linear infinite;
+  margin: 0;
 }
 
 main {
@@ -67,10 +69,6 @@ section {
   $size: 25px;
   width: $size;
   height: $size;
-}
-
-.snake {
-  background-color: map_get($colors, snake);
 }
 
 .apple {

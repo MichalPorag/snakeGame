@@ -1,8 +1,10 @@
 module.exports = {
     paint: (findCurrentCube, applePositions, board) => {
-        let cubeToChange = findCurrentCube(applePositions.row, applePositions.column, board);
-        if (cubeToChange) {
-            cubeToChange.classList.add("apple");
+        let cube = findCurrentCube(applePositions.row, applePositions.column, board);
+        if (cube) {
+
+            cube.classList.add("apple");
+            // cubeToChange.classList = ["cube", "apple"];
         }
     },
 
@@ -17,6 +19,6 @@ module.exports = {
 
     destroy: (findCurrentCube, applePositions, board) => {
         let cubeToRest = findCurrentCube(applePositions.row, applePositions.column, board);
-        cubeToRest.classList = "cube";
+        cubeToRest.classList = ["cube"];
     },
 };

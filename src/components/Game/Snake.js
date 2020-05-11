@@ -1,12 +1,58 @@
 module.exports = {
     paint: (findCurrentCube, snakePositions, board) => {
         for (let i = 0; i < snakePositions.length; i++) {
-            let nextCubeToChange = findCurrentCube(snakePositions[i].row, snakePositions[i].column, board);
-            const isSnake = nextCubeToChange.classList.value.includes("snake");
-            if (nextCubeToChange && !isSnake) {
-                nextCubeToChange.classList.remove("apple")
-                nextCubeToChange.classList.add("snake");
+            const cube = findCurrentCube(snakePositions[i].row, snakePositions[i].column, board);
+            cube.classList = ["cube"];
+            // const isSnake = cube.classList.value.includes("snake");
+            // console.log("cube.classList before: ", cube.classList);
+            // console.log("cube.classList after: ", cube.classList);
+            // if (cube && !isSnake) {
+            if (cube) {
+                cube.classList.add("snake");
             }
+            if (i === snakePositions.length - 1) {
+                let snakeHeadClass = "snake-head-";
+                if (snakePositions[i].row >  snakePositions[i - 1].row) {
+                    snakeHeadClass += "down";
+                }
+                if (snakePositions[i].row <  snakePositions[i - 1].row) {
+                    snakeHeadClass += "up";
+                }
+                if (snakePositions[i].column >  snakePositions[i - 1].column) {
+                    snakeHeadClass += "right";
+                }
+                if (snakePositions[i].column <  snakePositions[i - 1].column) {
+                    snakeHeadClass += "left";
+                }
+                cube.classList.add(snakeHeadClass);
+            }
+            if (i === snakePositions.length - 2) {
+
+            }
+
+
+
+            // if (snakePositions[i - 1].row !== snakePositions[i + 1].row &&
+            //     snakePositions[i - 1].column !== snakePositions[i + 1].column) { //isCorner?
+            //     if (snakePositions[i - 1].row > snakePositions[i + 1].row) { //bottom corner
+            //         if (snakePositions[i - 1].column < snakePositions[i + 1].column) { //right corner
+            //             if (snakePositions[i].column < snakePositions[i + 1].column) {
+            //
+            //             }
+            //             if (snakePositions[i].row < snakePositions[i + 1].row) {
+            //
+            //             }
+            //         } else { //left corner
+            //
+            //         }
+            //     } else { //top corner
+            //         if (snakePositions[i - 1].column < snakePositions[i + 1].column) { //right corner
+            //
+            //         } else { //left corner
+            //
+            //         }
+            //     }
+            // }
         }
     },
 
@@ -33,7 +79,7 @@ module.exports = {
         setSnakePositions(newSnake);
     },
 
-    updatePosition: (snakeHead, snakePositions, setSnakePositions, resetCubeStyle, board) => {
+    updateBodyPosition: (snakeHead, snakePositions, setSnakePositions, resetCubeStyle, board) => {
         let currentSP = [...snakePositions];
         let lastCube = currentSP.shift();
         currentSP.push(snakeHead);

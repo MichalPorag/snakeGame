@@ -6,9 +6,9 @@ button {
   border: 0;
   font-weight: bold;
   border-radius: 15px;
+  transition-duration: 0.2s;
 
   &:hover {
-    //TODO: Add animation - it's not look good in the settings screen
     transform: scale(1.2);
   }
 
@@ -47,7 +47,6 @@ button {
   $size: 25px;
   width: $size;
   height: $size;
-  //background-color: red;
   background: url("../../../media/settings.png") no-repeat;
   background-size: contain;
 }
@@ -57,6 +56,22 @@ button {
   width: $size + 50px;
   height: $size;
   background-color: red;
+
+  //$background-images: (
+  //        "beginner",
+  //        "averages",
+  //        "advanced",
+  //        "classic",
+  //        "portal",
+  //        "village"
+  //);
+  //
+  //@for $i from 1 through length($background-images) {
+  //  &:nth-child(#{$i}) {
+  //    background: blue url("../../../media/settingsButtons/#{$background-images($i)}") no-repeat;
+  //    background-size: cover;
+  //  }
+  //}
 }
 
 .BTN-back {
