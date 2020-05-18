@@ -40,6 +40,7 @@ function Game({NUMBER_OF_LINES}) {
             // paintHousesOnTheBoard();
         }
 
+
         return () => {
             document.removeEventListener('keyup', handleKeyPress);
         }
@@ -118,6 +119,7 @@ function Game({NUMBER_OF_LINES}) {
 
     const handleKeyPress = (e) => {
         const {key} = e;
+        console.log(key);
         if (!isGameOver) {
             switch (key) {
                 case "ArrowLeft":
