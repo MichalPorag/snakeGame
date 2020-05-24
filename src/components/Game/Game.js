@@ -9,6 +9,7 @@ import sounds from "../../utils/sounds";
 import snake from "./Snake";
 import apple from "./Apple";
 import SocialNetworksLinks from "./SocialNetworksLinks";
+import Portal from "./Modes/Portal";
 // import trees from "./Trees";
 // import houses from "./houses";
 
@@ -39,7 +40,6 @@ function Game({NUMBER_OF_LINES}) {
             // paintWallsOnTheBoard();
             // paintHousesOnTheBoard();
         }
-
 
         return () => {
             document.removeEventListener('keyup', handleKeyPress);
@@ -119,7 +119,6 @@ function Game({NUMBER_OF_LINES}) {
 
     const handleKeyPress = (e) => {
         const {key} = e;
-        console.log(key);
         if (!isGameOver) {
             switch (key) {
                 case "ArrowLeft":
@@ -197,6 +196,7 @@ function Game({NUMBER_OF_LINES}) {
                      ref={board}>
                     {setCubes()}
                 </div>
+                <Portal />
             </main>
             {
                 isGameOver && !isSettingsScreenOpen ?

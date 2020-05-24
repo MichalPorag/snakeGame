@@ -127,6 +127,92 @@ h4 {
   font-size: min(max(20px, 5vw), 40px);
 }
 
+@keyframes scale {
+  0% {
+    transform: scale(1);
+  }
+  80% {
+    transform: scale(1.02);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes move-bg {
+  from {
+    background-position: right top;
+  }
+  to {
+    background-position: left bottom;
+  }
+}
+@keyframes shine {
+  0% {
+    --gradient-size: 140px;
+  }
+  20% {
+    --gradient-size: 145px;
+  }
+  30% {
+    --gradient-size: 150px;
+  }
+  40% {
+    --gradient-size: 155px;
+  }
+  50% {
+    --gradient-size: 160px;
+  }
+  60% {
+    --gradient-size: 155px;
+  }
+  80% {
+    --gradient-size: 150px;
+  }
+  90% {
+    --gradient-size: 145px;
+  }
+  100% {
+    --gradient-size: 140px;
+  }
+}
+:root {
+  --gradient-size: 40px;
+  --shine-width: calc(var(--gradient-size) + 5px);
+  animation: shine 0.5s linear infinite;
+}
+
+.wall {
+  width: 290px;
+  height: 290px;
+  border-width: 0 10px;
+  border-style: solid;
+  border-color: transparent #472100;
+  position: absolute;
+  perspective: 290px;
+  top: calc(50% - 290px / 2);
+  left: calc(50% - 290px / 2);
+}
+.wall:before, .wall:after {
+  transition: all 0.3s linear;
+  width: var(--gradient-size);
+  height: 370px;
+  background-position: right center;
+  content: "";
+  display: block;
+  position: absolute;
+  top: -37px;
+}
+.wall:before {
+  background: radial-gradient(at right, #a3f6f6 10%, rgba(255, 255, 255, 0) 70%);
+  left: calc(-1 * var(--shine-width) - 4px);
+  transform: rotateY(60deg);
+}
+.wall:after {
+  background: radial-gradient(at left, #a3f6f6 10%, rgba(255, 255, 255, 0) 70%);
+  right: calc(-1 * var(--shine-width) - 4px);
+  transform: rotateY(-60deg);
+}
+
 .hide {
   display: none;
 }
