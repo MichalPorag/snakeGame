@@ -18,3 +18,33 @@
     background-position: left bottom;
   }
 }
+
+@keyframes shine {
+  0%   {
+    --gradient-size: 140px;
+  }
+  20%  {
+    --gradient-size: 145px;
+  }
+  30%  {
+    --gradient-size: 150px;
+  }
+  40%  {
+    --gradient-size: 155px;
+  }
+  50%  {
+    --gradient-size: 160px;
+  }
+  60%  {
+    --gradient-size: 155px;
+  }
+  80%  {
+    --gradient-size: 150px;
+  }
+  90%  {
+    --gradient-size: 145px;
+  }
+  100% {
+    --gradient-size: 140px;
+  }
+}

@@ -26,11 +26,11 @@ module.exports = {
 
     isEqualToSnakeHeadPosition: (cube, snakePositions) => {
         for (const snakePart of snakePositions) {
-            if (cube.row !== snakePart.row || cube.column !== snakePart.column) {
-                return false;
+            if (cube.row === snakePart.row && cube.column === snakePart.column) {
+                return true;
             }
         }
-        return true;
+        return false;
     },
 
     /**
