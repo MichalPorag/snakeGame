@@ -32,5 +32,5 @@ module.exports = {
         } else {
             return  500;
         }
-    }
+    },
 };

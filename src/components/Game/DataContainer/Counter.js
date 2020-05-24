@@ -2,9 +2,9 @@ import React from "react";
 
 function DataContainer({score}) {
     return (
-        <h3>
+        <h4 className={"counter"}>
             Score: {score}
-        </h3>
+        </h4>
     );
 }
 

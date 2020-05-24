@@ -9,7 +9,6 @@ import sounds from "../../utils/sounds";
 import snake from "./Snake";
 import apple from "./Apple";
 // import trees from "./Trees";
-// import walls from "./walls";
 // import houses from "./houses";
 
 import DataContainer from "./DataContainer/DataContainer";
@@ -30,8 +29,7 @@ function Game({NUMBER_OF_LINES}) {
 
 
     useEffect(() => {
-        document.addEventListener('keyup',
-            (e) => handleKeyPress(e, isGameOver));
+        document.addEventListener('keyup', handleKeyPress);
 
         if (snakePositions && !isGameOver) {
             snake.paint(utilsFunctions.findCurrentCube, snakePositions, board);
@@ -42,9 +40,9 @@ function Game({NUMBER_OF_LINES}) {
         }
 
         return () => {
-            window.removeEventListener('keyup', handleKeyPress);
+            document.removeEventListener('keyup', handleKeyPress);
         }
-    }, [snakePositions, isGameOver]);
+    }, [snakePositions, isGameOver, applePositions]);
 
     useInterval(() => {
         const snakeHead = snake.getNextHeadPosition(snakeDirection, snakePositions);
@@ -164,7 +162,6 @@ function Game({NUMBER_OF_LINES}) {
     };
 
     const handleSettingsButtonClicked = () => {
-        console.log("I clicked");
         isSettingsScreenOpen ?
             setSettingsScreen(false) :
             setSettingsScreen(true);
