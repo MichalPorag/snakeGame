@@ -18,11 +18,10 @@ button {
 }
 
 .BTN-standard {
-  width: 70%;
-  height: 80px;
   margin: 0 auto;
+  padding: 5vw;
   background-color: map_get($colors, button);
-  font-size: 30px;
+  font-size: 8vw;
   box-shadow: 0 10px 13px -7px #000000, 5px 5px 15px 5px rgba(0,0,0,0);
   animation: scale 1s linear infinite;
 }
@@ -47,7 +46,6 @@ button {
   $size: 25px;
   width: $size;
   height: $size;
-  //background-color: red;
   background: url("../../../media/settings.png") no-repeat;
   background-size: contain;
 }
@@ -65,7 +63,6 @@ button {
   height: $size;
   background: url("../../../media/arrow.png") no-repeat;
   background-size: contain;
-  //background-color: purple;
   position: absolute;
   top: 0;
   right: 0;
