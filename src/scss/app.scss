@@ -10,10 +10,7 @@
         "Local/layouts",
         "Local/_fonts";
 
-* {
-  font-family: Arial, serif;
-  margin: 0;
-}
+$cube-size: 4vw;
 
 body {
   height: 100vh;
@@ -28,6 +25,7 @@ main {
   border-radius: 25px;
   box-shadow: inset 2px 5px 16px 0 #faa554;
   position: relative;
+  font-size: 2px;
 }
 
 section {
@@ -70,9 +68,10 @@ section {
 }
 
 .cube {
-  $size: 25px;
-  width: $size;
-  height: $size;
+  width: $cube-size;
+  max-width: 35px;
+  height: $cube-size;
+  max-height: 35px;
 }
 
 .snake {
@@ -85,9 +84,11 @@ section {
 }
 
 .layout-screen {
-  $size: 575px;
+  $size: $cube-size * 23;
   height: $size;
+  max-height: 35px * 23;
   width: $size;
+  max-width: 35px * 23;
   position: relative;
   background-color: map_get($colors, transparent-black);
   margin-top: -100%;
