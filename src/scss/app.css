@@ -64,7 +64,7 @@ button:focus {
   margin: 0 auto;
   padding: 5vw;
   background-color: yellow;
-  font-size: 8vw;
+  font-size: max(4.5rem, 25px);
   box-shadow: 0 10px 13px -7px #000000, 5px 5px 15px 5px rgba(0, 0, 0, 0);
   animation: scale 1s linear infinite;
 }
@@ -112,19 +112,19 @@ h1, h2, h3 {
 }
 
 h1 {
-  font-size: 8rem;
+  font-size: max(8rem, 40px);
 }
 
 h2 {
-  font-size: 6.5rem;
+  font-size: max(6.5rem, 35px);
 }
 
 h3 {
-  font-size: 4.5rem;
+  font-size: max(4.5rem, 25px);
 }
 
 h4 {
-  font-size: 3rem;
+  font-size: max(3rem, 20px);
 }
 
 .hide {

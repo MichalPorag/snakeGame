@@ -21,7 +21,7 @@ button {
   margin: 0 auto;
   padding: 5vw;
   background-color: map_get($colors, button);
-  font-size: 8vw;
+  font-size: unquote('max(#{4.5rem}, 25px)');
   box-shadow: 0 10px 13px -7px #000000, 5px 5px 15px 5px rgba(0,0,0,0);
   animation: scale 1s linear infinite;
 }
