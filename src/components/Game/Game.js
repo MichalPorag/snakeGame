@@ -25,8 +25,8 @@ function Game({NUMBER_OF_LINES}) {
     const [level, setLevel] = useState("beginners");
     const [mode, setMode] = useState();
     const [score, setScore] = useState(0);
+    const [isFirstGame, setFirstGame] = useState(true);
     const board = useRef();
-
 
     useEffect(() => {
         document.addEventListener('keyup', handleKeyPress);
@@ -109,6 +109,9 @@ function Game({NUMBER_OF_LINES}) {
     };
 
     const gameOver = () => {
+        if (isFirstGame) {
+            setFirstGame(false)
+        }
         setIsGameOver(true);
     };
 
@@ -194,8 +197,8 @@ function Game({NUMBER_OF_LINES}) {
             </main>
             {
                 isGameOver && !isSettingsScreenOpen ?
-                <GameOverScreen
-                startAgainClicked={handleStartNewGameButtonClicked}/> :
+                <GameOverScreen startAgainClicked={handleStartNewGameButtonClicked}
+                                isFirstGame={isFirstGame}/> :
                 null
             }
             {
