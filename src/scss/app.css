@@ -62,9 +62,9 @@ button:focus {
 
 .BTN-standard {
   margin: 0 auto;
-  padding: 5vw;
+  padding: min(5rem, 40px);
   background-color: yellow;
-  font-size: max(4.5rem, 25px);
+  font-size: min(max(20px, 5vw), 40px);
   box-shadow: 0 10px 13px -7px #000000, 5px 5px 15px 5px rgba(0, 0, 0, 0);
   animation: scale 1s linear infinite;
 }
@@ -112,19 +112,19 @@ h1, h2, h3 {
 }
 
 h1 {
-  font-size: max(8rem, 40px);
+  font-size: min(max(40px, 12vw), 100px);
 }
 
 h2 {
-  font-size: max(6.5rem, 35px);
+  font-size: min(max(35px, 10vw), 75px);
 }
 
 h3 {
-  font-size: max(4.5rem, 25px);
+  font-size: min(max(25px, 8vw), 60px);
 }
 
 h4 {
-  font-size: max(3rem, 20px);
+  font-size: min(max(20px, 5vw), 40px);
 }
 
 .hide {
@@ -146,6 +146,11 @@ h4 {
   font-size: 1.5vw;
   font-family: Arial, serif;
   margin: 0;
+}
+
+.icon {
+  cursor: pointer;
+  font-size: min(max(15px, 8vw), 60px);
 }
 
 /*Flex*/
@@ -189,6 +194,9 @@ section h3 {
 #data-container > * {
   color: #954F0F;
 }
+#data-container > button {
+  margin-top: 0.8%;
+}
 
 #board-container {
   background-color: #9bde64;
@@ -205,9 +213,9 @@ section h3 {
 
 .cube {
   width: 4vw;
-  max-width: 35px;
+  max-width: 30px;
   height: 4vw;
-  max-height: 35px;
+  max-height: 30px;
 }
 
 .snake {
@@ -221,9 +229,9 @@ section h3 {
 
 .layout-screen {
   height: 92vw;
-  max-height: 805px;
+  max-height: 690px;
   width: 92vw;
-  max-width: 805px;
+  max-width: 690px;
   position: relative;
   background-color: rgba(0, 0, 0, 0.3);
   margin-top: -100%;
@@ -237,6 +245,20 @@ section h3 {
 
 .counter {
   padding-top: 7px;
+}
+
+.socialNetworks {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0;
+}
+.socialNetworks > li:not(:first-of-type) {
+  margin-left: 20px;
+}
+.socialNetworks > li {
+  list-style-type: none;
 }
 
 /*# sourceMappingURL=app.css.map */
