@@ -52,6 +52,10 @@ section {
   > * {
     color: #954F0F;
   }
+
+  > button {
+    margin-top: 0.8%;
+  }
 }
 
 #board-container {
@@ -69,9 +73,9 @@ section {
 
 .cube {
   width: $cube-size;
-  max-width: 35px;
+  max-width: 30px;
   height: $cube-size;
-  max-height: 35px;
+  max-height: 30px;
 }
 
 .snake {
@@ -86,9 +90,9 @@ section {
 .layout-screen {
   $size: $cube-size * 23;
   height: $size;
-  max-height: 35px * 23;
+  max-height: 30px * 23;
   width: $size;
-  max-width: 35px * 23;
+  max-width: 30px * 23;
   position: relative;
   background-color: map_get($colors, transparent-black);
   margin-top: -100%;
@@ -102,4 +106,18 @@ section {
 
 .counter {
   padding-top: 7px;
+}
+
+.socialNetworks {
+  margin-top: 10px;
+  @include flex-center;
+  padding: 0;
+
+  > li:not(:first-of-type) {
+    margin-left: 20px;
+  }
+
+  > li {
+    list-style-type: none;
+  }
 }

@@ -8,6 +8,7 @@ import validation from "../../utils/validation";
 import sounds from "../../utils/sounds";
 import snake from "./Snake";
 import apple from "./Apple";
+import SocialNetworksLinks from "./SocialNetworksLinks";
 // import trees from "./Trees";
 // import houses from "./houses";
 
@@ -208,7 +209,7 @@ function Game({NUMBER_OF_LINES}) {
                               mode={mode}/> :
                     null
             }
-
+            <SocialNetworksLinks />
         </>
     );
 }

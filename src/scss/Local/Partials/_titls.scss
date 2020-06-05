@@ -4,17 +4,17 @@ h1, h2, h3 {
 }
 
 h1 {
-  font-size: unquote('max(#{8rem}, 40px)');
+  font-size: unquote('min(max(40px, #{12vw}), 100px)');
 }
 
 h2 {
-  font-size: unquote('max(#{6.5rem}, 35px)');
+  font-size: unquote('min(max(35px, #{10vw}), 75px)');
 }
 
 h3 {
-  font-size: unquote('max(#{4.5rem}, 25px)');
+  font-size: unquote('min(max(25px, #{8vw}), 60px)');
 }
 
 h4 {
-  font-size: unquote('max(#{3rem}, 20px)');
+  font-size: unquote('min(max(20px, #{5vw}), 40px)');
 }
