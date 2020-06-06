@@ -24,16 +24,16 @@ function Game({NUMBER_OF_LINES}) {
     const [isSettingsScreenOpen, setSettingsScreen] = useState(false);
     const [isSoundActive, setSoundActive] = useState(false);
     const [level, setLevel] = useState("beginners");
-    const [mode, setMode] = useState();
+    const [mode, setMode] = useState("classic");
     const [score, setScore] = useState(0);
     const [isFirstGame, setFirstGame] = useState(true);
     const board = useRef();
-    const WALLS = {
-      top: 6,
-      right: 18,
-      bottom: 18,
-      left: 6
-    };
+    // const WALLS = {
+    //   top: 6,
+    //   right: 18,
+    //   bottom: 18,
+    //   left: 6
+    // };
 
     useEffect(() => {
         document.addEventListener('keyup', handleKeyPress);
@@ -54,9 +54,9 @@ function Game({NUMBER_OF_LINES}) {
     useInterval(() => {
         const snakeHead = snake.getNextHeadPosition(snakeDirection, snakePositions);
         if (validation.isSnakeHeadPositionValid(snakeHead, snakeDirection, snakePositions, mode, NUMBER_OF_LINES)) {
-            if (validation.isSnakeTouchWall(WALLS, snakePositions)) {
-                console.log(">>>>>>>> The snake touched the wall");
-            }
+            // if (validation.isSnakeTouchWall(WALLS, snakePositions)) {
+            //     console.log(">>>>>>>> The snake touched the wall");
+            // }
             snake.updatePosition(snakeHead, snakePositions, setSnakePositions, utilsFunctions.resetCubeStyle, board);
             if (validation.isEqualToApplePosition(snakeHead,applePositions)) {
                 apple.destroy(utilsFunctions.findCurrentCube, applePositions, board);
@@ -146,9 +146,7 @@ function Game({NUMBER_OF_LINES}) {
         }
     };
 
-    const handleStartNewGameButtonClicked = (gameSettings) => {
-        setLevel(gameSettings.level);
-        setMode(gameSettings.mode);
+    const handleStartNewGameButtonClicked = () => {
         setSettingsScreen(false);
         startNewGame();
     };
@@ -186,6 +184,28 @@ function Game({NUMBER_OF_LINES}) {
         }
     };
 
+    const HandleLevelChange = (e) => {
+        const buttonsName = e.target.innerHTML.toLowerCase();
+        if (buttonsName === "advanced") {
+            setLevel("advanced");
+        } else if (buttonsName === "averages") {
+            setLevel("averages");
+        } else {
+            setLevel("beginner");
+        }
+    };
+
+    const HandleModeChange = (e) => {
+        const buttonsName = e.target.innerHTML.toLowerCase();
+        if (buttonsName.includes("village")) {
+            setMode("village");
+        } else if (buttonsName.includes("portal")) {
+            setMode("portal");
+        } else {
+            setMode("classic");
+        }
+    };
+
     return (
         <>
             <main>
@@ -211,7 +231,9 @@ function Game({NUMBER_OF_LINES}) {
                 isSettingsScreenOpen ?
                     <Settings startAgainClicked={handleStartNewGameButtonClicked}
                               level={level}
+                              changeLevel={e => HandleLevelChange(e)}
                               mode={mode}
+                              changeMode={e => HandleModeChange(e)}
                               goBackClicked={handleStartNewGameButtonClicked}
                               isGameOver={isGameOver}/> :
                     null

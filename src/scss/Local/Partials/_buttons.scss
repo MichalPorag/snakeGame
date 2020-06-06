@@ -6,6 +6,11 @@ button {
   border: 0;
   font-weight: bold;
   border-radius: 15px;
+  background-color: transparent;
+
+  > * {
+    font-size: 4.5vw;
+  };
 
   &:hover {
     //TODO: Add animation - it's not look good in the settings screen
@@ -33,27 +38,23 @@ button {
 }
 
 .BTN-audio {
-   $size: 25px;
-   width: $size + 10px;
-   height: $size;
-
-   &.mute {
-     background: transparent url("../../../media/mute.png") no-repeat;
-     background-size: cover;
-   }
-
-   &.unMute {
-     background: transparent url("../../../media/unMute.png") no-repeat;
-     background-size: cover;
-   }
- }
-
-.BTN-settings {
   $size: 25px;
   width: $size;
   height: $size;
-  background: url("../../../media/settings.png") no-repeat;
-  background-size: contain;
+
+  > * {
+    font-size: $size;
+  };
+}
+
+.BTN-settings {
+  $size: 20px;
+  width: $size;
+  height: $size;
+
+  > * {
+    font-size: $size;
+  };
 }
 
 .BTN-pick-setting {

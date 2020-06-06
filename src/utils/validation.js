@@ -59,14 +59,14 @@ module.exports = {
         if (mode === "village") {
             if (cube.column < NUMBER_OF_LINES - 3 &&
                 cube.column > NUMBER_OF_LINES - 10 &&
-                cube.row < NUMBER_OF_LINES - 3
-                && cube.row > NUMBER_OF_LINES - 10) {
+                cube.row < NUMBER_OF_LINES - 3 &&
+                cube.row > NUMBER_OF_LINES - 10) {
                 isTouchHouse = true;
             }
-            if (cube.column > 1 && cube.column < 7 &&
-                cube.row > 1 && cube.row < 11 ||
-                cube.column > 7 && cube.column < 11 &&
-                cube.row > 1 && cube.row < 7) {
+            if ((cube.column > 1 && cube.column < 7 &&
+                cube.row > 1 && cube.row < 11) ||
+                (cube.column > 7 && cube.column < 11 &&
+                cube.row > 1 && cube.row < 7)) {
                 isTouchHouse = true;
             }
         }
@@ -75,7 +75,7 @@ module.exports = {
     },
 
     isSnakeTouchWall: (WALLS, snakePosition) => {
-        console.log(snakePosition);
+        // console.log(snakePosition);
         // for (const part of snakePosition) {
         //     if ((part.column === WALLS.right && part.direction === "left") ||
         //         (part.column === WALLS.left && part.direction === "right")) {
