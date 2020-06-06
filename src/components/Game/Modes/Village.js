@@ -8,8 +8,8 @@ function Village({isGameOver}) {
     return (
         <>
             {/*{trees}*/}
-            <div className={`${isGameOver ? "" :""} house`} />
-            <div className={`${isGameOver ? "" :""} house1`} />
+            <div className={`${isGameOver ? "hide" :""} house`} />
+            <div className={`${isGameOver ? "hide" :""} house1`} />
         </>
     );
 }

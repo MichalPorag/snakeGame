@@ -1,22 +1,7 @@
 import React from 'react';
 import StartButton from "../Buttons/StartButton";
 
-function Settings({level, mode, startAgainClicked, goBackClicked, isGameOver}) {
-    let gameSettings = {
-        level: level,
-        mode: mode
-    };
-
-    const updateSettings = (valueToChange) => {
-        if (valueToChange === "beginner" ||
-            valueToChange === "averages" ||
-            valueToChange === "advanced") {
-            gameSettings.level = valueToChange;
-        } else {
-            gameSettings.mode = valueToChange;
-        }
-    };
-
+function Settings({changeLevel, changeMode, startAgainClicked, goBackClicked}) {
     return (
         <div className={"layout-screen show"}>
             <button className={"BTN-back"}
@@ -26,15 +11,15 @@ function Settings({level, mode, startAgainClicked, goBackClicked, isGameOver}) {
                 <h5>Chose Level</h5>
                 <ul>
                     <button className={"BTN-pick-setting"}
-                            onClick={() => updateSettings("beginner")}>
+                            onClick={changeLevel}>
                         Beginner
                     </button>
                     <button className={"BTN-pick-setting"}
-                            onClick={() => updateSettings("averages")}>
+                            onClick={changeLevel}>
                         Averages
                     </button>
                     <button className={"BTN-pick-setting"}
-                            onClick={() => updateSettings("advanced")}>
+                            onClick={changeLevel}>
                         Advanced
                     </button>
                 </ul>
@@ -43,16 +28,16 @@ function Settings({level, mode, startAgainClicked, goBackClicked, isGameOver}) {
                 <h5>Chose Mode</h5>
                 <ul>
                     <button className={"BTN-pick-setting"}
-                            onClick={() => updateSettings("classic")}>
+                            onClick={changeMode}>
                         Classic
                     </button>
                     <button className={"BTN-pick-setting"}
-                            onClick={() => updateSettings("portal")}>
+                            onClick={changeMode}>
                         Portal Snake
                     </button>
                     <button className={"BTN-pick-setting"}
-                            onClick={() => updateSettings("village")}>
-                        Snake In The Village
+                            onClick={changeMode}>
+                    Snake In The Village
                     </button>
                 </ul>
             </section>

@@ -52,6 +52,10 @@ button {
   border: 0;
   font-weight: bold;
   border-radius: 15px;
+  background-color: transparent;
+}
+button > * {
+  font-size: 4.5vw;
 }
 button:hover {
   transform: scale(1.2);
@@ -74,23 +78,19 @@ button:focus {
 }
 
 .BTN-audio {
-  width: 35px;
+  width: 25px;
   height: 25px;
 }
-.BTN-audio.mute {
-  background: transparent url("../../../media/mute.png") no-repeat;
-  background-size: cover;
-}
-.BTN-audio.unMute {
-  background: transparent url("../../../media/unMute.png") no-repeat;
-  background-size: cover;
+.BTN-audio > * {
+  font-size: 25px;
 }
 
 .BTN-settings {
-  width: 25px;
-  height: 25px;
-  background: url("../../../media/settings.png") no-repeat;
-  background-size: contain;
+  width: 20px;
+  height: 20px;
+}
+.BTN-settings > * {
+  font-size: 20px;
 }
 
 .BTN-pick-setting {
