@@ -33,4 +33,13 @@ module.exports = {
             return  500;
         }
     },
+
+    usePortal: (WALLS, cube) => {
+        if (cube.column === WALLS.left) {
+            return WALLS.right;
+        }
+        if (cube.column === WALLS.right) {
+            return WALLS.left;
+        }
+    },
 };

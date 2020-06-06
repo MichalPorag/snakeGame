@@ -1,0 +1,47 @@
+@import "../../Config/_colors",
+        "../../Config/_sizes",
+        "../../Config/_animations";
+
+:root {
+  --gradient-size: unquote('calc(min(#{4vw}, 30px) * 10)');
+  --shine-width: calc(var(--gradient-size) + 5px);
+  animation: shine 0.5s linear infinite;
+}
+
+
+.house1 {
+  $size: unquote('calc(min(#{4vw}, 30px) * 10)');
+
+  width:  $size;
+  height:  $size;
+  position: absolute;
+  top: 70px;
+  left: 10px;
+  background: url("../../../media/hous2.png");
+  background-size: cover;
+}
+
+.house {
+  $size: unquote('calc(min(#{4vw}, 30px) * 6)');
+  $margin: unquote('calc((max(#{4vw}, 30px) * 2) - 10px)');
+
+  width:  $size;
+  height:  $size;
+  position: absolute;
+  bottom: $margin;
+  right: $margin;
+  //bottom: -10px;
+  //right: -10px;
+  background: url("../../../media/house.png");
+  background-size: cover;
+}
+
+.tree {
+  $size: unquote('calc(min(#{4vw}, 30px) * 6)');
+
+  width:  $size;
+  height:  $size;
+  position: absolute;
+  background: url("../../../media/tree.png");
+  background-size: cover;
+}

@@ -1,6 +1,7 @@
 import React from 'react';
+import StartButton from "../Buttons/StartButton";
 
-function Settings({level, mode, startGameClicked, goBack}) {
+function Settings({level, mode, startAgainClicked, goBackClicked, isGameOver}) {
     let gameSettings = {
         level: level,
         mode: mode
@@ -14,16 +15,15 @@ function Settings({level, mode, startGameClicked, goBack}) {
         } else {
             gameSettings.mode = valueToChange;
         }
-
     };
 
     return (
         <div className={"layout-screen show"}>
             <button className={"BTN-back"}
-                    onClick={goBack}/>
-            <h2>Settings</h2>
+                    onClick={goBackClicked}/>
+            <h3>Settings</h3>
             <section>
-                <h3>Chose Level</h3>
+                <h5>Chose Level</h5>
                 <ul>
                     <button className={"BTN-pick-setting"}
                             onClick={() => updateSettings("beginner")}>
@@ -40,26 +40,24 @@ function Settings({level, mode, startGameClicked, goBack}) {
                 </ul>
             </section>
             <section>
-                <h3>Chose Mode</h3>
+                <h5>Chose Mode</h5>
                 <ul>
                     <button className={"BTN-pick-setting"}
                             onClick={() => updateSettings("classic")}>
                         Classic
                     </button>
-                    <button className={"BTN-pick-setting disable"}
+                    <button className={"BTN-pick-setting"}
                             onClick={() => updateSettings("portal")}>
                         Portal Snake
                     </button>
-                    <button className={"BTN-pick-setting disable"}
+                    <button className={"BTN-pick-setting"}
                             onClick={() => updateSettings("village")}>
                         Snake In The Village
                     </button>
                 </ul>
             </section>
-            <button className={"BTN-standard"}
-                    onClick={() => startGameClicked(gameSettings)}>
-                Start Game
-            </button>
+            <StartButton isGameOver={true}
+                         startAgainClicked={startAgainClicked}/>
         </div>
     );
 }

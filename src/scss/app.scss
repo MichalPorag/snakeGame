@@ -4,6 +4,7 @@
 @import "Local/Partials/_buttons",
         "Local/Partials/_titls.scss",
         "Local/Partials/_portal.scss",
+        "Local/Partials/_village.scss",
         "Local/_utilities",
         "Local/_reset",
         "Local/_mixins",
@@ -11,7 +12,7 @@
         "Local/layouts",
         "Local/_fonts";
 
-$cube-size: 4vw;
+$cube-size: unquote('min(#{4vw}, 30px)');
 
 body {
   height: 100vh;
@@ -19,19 +20,21 @@ body {
   background: url("../media/ocean.jpg") repeat;
   background-size: unset;
   animation: move-bg 100s linear infinite;
+  display: flex;
 }
 
 main {
-  background-color: #fae6a0;
+  background-color:  map_get($colors, snad);
   border-radius: 25px;
-  box-shadow: inset 2px 5px 16px 0 #faa554;
+  box-shadow: inset 2px 5px 16px 0  map_get($colors, box-shadow-dark-snad),
+              0 0 10px 3px  map_get($colors, box-shadow-dark-snad);
   position: relative;
   font-size: 2px;
 }
 
 section {
   ul {
-    height: 100px;
+    height: unquote('calc(min(#{3.5vw}, 30px) * 5)');
     display: flex;
     justify-content: space-evenly;
     align-items: center;
@@ -41,6 +44,10 @@ section {
 
   h3 {
     margin-bottom: 15px;
+  }
+
+  h5 {
+    text-align: center;
   }
 }
 
@@ -89,8 +96,8 @@ section {
 }
 
 .layout-screen {
-  $size: $cube-size * 23;
-  height: $size;
+  $size: calc(#{$cube-size} * 23);
+  height: calc(#{$cube-size} * 18);
   max-height: 30px * 23;
   width: $size;
   max-width: 30px * 23;
@@ -100,9 +107,9 @@ section {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
-  padding: 10px;
+  padding: 10px 10px calc(#{$cube-size} * 5 + 10px) 10px;
   border-radius: 25px;
-  box-shadow: inset 0 0 55px 0 map-get($colors, box-shadow-button);
+  box-shadow: inset 0 0 55px 0 map-get($colors, snad);
 }
 
 .counter {
@@ -110,9 +117,9 @@ section {
 }
 
 .socialNetworks {
-  margin-top: 10px;
   @include flex-center;
   padding: 0;
+  margin-top: 2%;
 
   > li:not(:first-of-type) {
     margin-left: 20px;
@@ -120,5 +127,7 @@ section {
 
   > li {
     list-style-type: none;
+    color: #fae6a0;
+    filter:drop-shadow(1px 1px 3px map_get($colors, box-shadow-dark-snad));
   }
 }

@@ -1,6 +1,7 @@
 import React from 'react';
+import StartButton from "../Buttons/StartButton";
 
-function GameOverScreen({startAgainClicked, isFirstGame}) {
+function GameOverScreen({startAgainClicked, isFirstGame, isGameOver}) {
      const firstGame = () => {
          return (
                  <>
@@ -20,11 +21,9 @@ function GameOverScreen({startAgainClicked, isFirstGame}) {
                     <h2>Ohh...</h2>
                     <h1>You Failed!</h1>
                 </section>
-                        <h3>Want to start over</h3>
-                <button className={`BTN-standard`}
-                        onClick={startAgainClicked}>
-                    Start Again
-                </button>
+                <h3>Want to start over</h3>
+                <StartButton isGameOver={isGameOver}
+                             startAgainClicked={startAgainClicked}/>
             </>
         )
     };

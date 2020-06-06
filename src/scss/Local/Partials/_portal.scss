@@ -3,46 +3,46 @@
         "../../Config/_animations";
 
 :root {
-  --gradient-size: 40px;
+  --gradient-size: unquote('calc(min(#{4vw}, 30px) * 10)');
   --shine-width: calc(var(--gradient-size) + 5px);
   animation: shine 0.5s linear infinite;
 }
 
 .wall {
-  $size: 290px;
-  $border-size: 10px;
+  $size: unquote('calc(min(#{4vw}, 30px) * 10)');
   $rotate: 60deg;
 
   width: $size;
   height: $size;
-  border-width: 0 $border-size;
+  border-width: 0 unquote('min(#{4vw}, 30px)');
   border-style: solid;
   border-color: transparent #472100;
   position: absolute;
   perspective: $size;
-  top: calc(50% - #{$size} / 2);
-  left: calc(50% - #{$size} / 2);
+  top: calc(50% - #{$size} / 2 - 10px);
+  left: calc(50% - #{$size} / 2 - 10px);
+  transform-style: preserve-3d;
 
   &:before, &:after {
     transition:all .3s linear;
     width: var(--gradient-size);
-    height: $size + 80px;
+    height: $size;
     background-position: right center;
     content: "";
     display: block;
     position: absolute;
-    top: -37px;
+    transform: translateZ(-1px);
   }
 
   &:before {
     background: radial-gradient(at right, rgba(163,246,246,1) 10%, rgba(255,255,255,0) 70%);
-    left: calc(-1 * var(--shine-width) - 4px);
+    left: calc(-1 * var(--shine-width));
     transform: rotateY($rotate);
   }
 
   &:after {
     background: radial-gradient(at left, rgba(163,246,246,1) 10%, rgba(255,255,255,0) 70%);
-    right: calc(-1 * var(--shine-width) - 4px);
+    right: calc(-1 * var(--shine-width));
     transform: rotateY(-$rotate);
   }
 }
