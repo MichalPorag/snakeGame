@@ -1,13 +1,17 @@
 $colors: (
-        board: #9bde64,
+        //board: #9bde64,
+        board: #acd567,
         snake: red,
         snakeHead: black,
         roof: #c74756,
-        button: yellow,
+        button: #fae6a0,
+        setting-button: #faa554,
         text: black,
+        snad: #fae6a0,
 
-        box-shadow-dark-green: #445e3b,
+        box-shadow-dark-green: #5c7d23,
+        box-shadow-dark-snad: #faa554,
         box-shadow-button: black,
 
-        transparent-black: rgba(0, 0, 0, 0.3)
+        transparent-black: rgba(0, 0, 0, 0.1)
 );

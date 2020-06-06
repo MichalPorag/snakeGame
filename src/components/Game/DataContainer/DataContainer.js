@@ -1,8 +1,8 @@
 import React from 'react';
 
-import SoundButton from "./SoundButton";
+import SoundButton from "../../Buttons/SoundButton";
 import Counter from "./Counter";
-import SettingsButton from "./SettingsButton";
+import SettingsButton from "../../Buttons/SettingsButton";
 
 function DataContainer({isSoundActive, soundButtonClicked, settingsButtonClicked, score}) {
     return (

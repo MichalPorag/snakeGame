@@ -9,8 +9,8 @@ import sounds from "../../utils/sounds";
 import snake from "./Snake";
 import apple from "./Apple";
 import SocialNetworksLinks from "./SocialNetworksLinks";
-// import trees from "./Trees";
-// import houses from "./houses";
+import Portal from "./Modes/Portal";
+import Village from "./Modes/Village";
 
 import DataContainer from "./DataContainer/DataContainer";
 import GameOverScreen from "./GameOverScreen";
@@ -28,6 +28,12 @@ function Game({NUMBER_OF_LINES}) {
     const [score, setScore] = useState(0);
     const [isFirstGame, setFirstGame] = useState(true);
     const board = useRef();
+    const WALLS = {
+      top: 6,
+      right: 18,
+      bottom: 18,
+      left: 6
+    };
 
     useEffect(() => {
         document.addEventListener('keyup', handleKeyPress);
@@ -47,24 +53,15 @@ function Game({NUMBER_OF_LINES}) {
 
     useInterval(() => {
         const snakeHead = snake.getNextHeadPosition(snakeDirection, snakePositions);
-        if (validation.isSnakeHeadPositionValid(snakeHead,
-                                                snakeDirection,
-                                                snakePositions,
-                                                NUMBER_OF_LINES)) {
-            snake.updatePosition(snakeHead,
-                                 snakePositions,
-                                 setSnakePositions,
-                                 utilsFunctions.resetCubeStyle,
-                                 board);
+        if (validation.isSnakeHeadPositionValid(snakeHead, snakeDirection, snakePositions, mode, NUMBER_OF_LINES)) {
+            if (validation.isSnakeTouchWall(WALLS, snakePositions)) {
+                console.log(">>>>>>>> The snake touched the wall");
+            }
+            snake.updatePosition(snakeHead, snakePositions, setSnakePositions, utilsFunctions.resetCubeStyle, board);
             if (validation.isEqualToApplePosition(snakeHead,applePositions)) {
                 apple.destroy(utilsFunctions.findCurrentCube, applePositions, board);
                 snake.increase(setSnakePositions,snakeDirection, snakePositions);
-                apple.updatePosition(validation.isApplePositionValid,
-                                     utilsFunctions.getRandomCube,
-                                     setApplePositions,
-                                     snakePositions,
-                                     applePositions,
-                                     NUMBER_OF_LINES);
+                apple.updatePosition(validation.isApplePositionValid, utilsFunctions.getRandomCube, setApplePositions, snakePositions, applePositions, NUMBER_OF_LINES);
                 setScore(score + 1);
                 if (isSoundActive) {
                     sounds.playBurpSound();
@@ -178,9 +175,15 @@ function Game({NUMBER_OF_LINES}) {
         setScore(0);
         apple.destroy(utilsFunctions.findCurrentCube, applePositions, board);
         snake.destroy(utilsFunctions.findCurrentCube, snakePositions, board);
-        // trees.destroy();
-        // houses.destroy();
-        // walls.destroy();
+    };
+
+    const getMode = () => {
+        if (mode === "portal") {
+            return <Portal isGameOver={isGameOver} />;
+        } else if (mode ===  "village") {
+            return <Village isGameOver={isGameOver}  />;
+        } else {
+        }
     };
 
     return (
@@ -194,19 +197,23 @@ function Game({NUMBER_OF_LINES}) {
                 <div id={"board-container"}
                      ref={board}>
                     {setCubes()}
+                    {getMode()}
                 </div>
             </main>
             {
                 isGameOver && !isSettingsScreenOpen ?
                 <GameOverScreen startAgainClicked={handleStartNewGameButtonClicked}
-                                isFirstGame={isFirstGame}/> :
+                                isFirstGame={isFirstGame}
+                                isGameOver={isGameOver}/> :
                 null
             }
             {
                 isSettingsScreenOpen ?
-                    <Settings startGameClicked={handleStartNewGameButtonClicked}
+                    <Settings startAgainClicked={handleStartNewGameButtonClicked}
                               level={level}
-                              mode={mode}/> :
+                              mode={mode}
+                              goBackClicked={handleStartNewGameButtonClicked}
+                              isGameOver={isGameOver}/> :
                     null
             }
             <SocialNetworksLinks />

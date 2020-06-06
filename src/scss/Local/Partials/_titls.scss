@@ -18,3 +18,7 @@ h3 {
 h4 {
   font-size: unquote('min(max(20px, #{5vw}), 40px)');
 }
+
+h5 {
+  font-size: unquote('min(max(15px, #{3vw}), 30px)');
+}

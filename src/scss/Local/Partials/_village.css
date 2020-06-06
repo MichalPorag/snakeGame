@@ -9,7 +9,6 @@
     transform: scale(1);
   }
 }
-
 @keyframes move-bg {
   from {
     background-position: right top;
@@ -18,33 +17,45 @@
     background-position: left bottom;
   }
 }
-
 @keyframes shine {
-  0%   {
+  0% {
     --gradient-size: 50%;
   }
-  20%  {
+  20% {
     --gradient-size: 53%;
   }
-  30%  {
+  30% {
     --gradient-size: 66%;
   }
-  40%  {
+  40% {
     --gradient-size: 62%;
   }
-  50%  {
+  50% {
     --gradient-size: 70%;
   }
-  60%  {
+  60% {
     --gradient-size: 63%;
   }
-  80%  {
+  80% {
     --gradient-size: 58%;
   }
-  90%  {
+  90% {
     --gradient-size: 54%;
   }
   100% {
     --gradient-size: 50%;
   }
 }
+:root {
+  --gradient-size: unquote("calc(min(4vw, 30px) * 10)");
+  --shine-width: calc(var(--gradient-size) + 5px);
+  animation: shine 0.5s linear infinite;
+}
+
+.house1 {
+  width: 100px;
+  height: 100px;
+  background-color: red;
+}
+
+/*# sourceMappingURL=_village.css.map */

@@ -9,8 +9,7 @@ library.add(fab, faCheckSquare, faCoffee, faAnchor);
 
 function App() {
   return (
-      <Game NUMBER_OF_LINES={25}
-            cubeSize={25}/>
+      <Game NUMBER_OF_LINES={25} />
   );
 }
 
